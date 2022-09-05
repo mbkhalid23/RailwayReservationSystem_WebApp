@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailwayReservationSystem", "RailwayReservationSystem\RailwayReservationSystem.csproj", "{4F6056DC-6292-4D2B-881C-0660B1B1A8A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RailwayReservationSystem", "RailwayReservationSystem\RailwayReservationSystem.csproj", "{4F6056DC-6292-4D2B-881C-0660B1B1A8A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailwayReservationSystem.DataAccess", "RailwayReservationSystem.DataAccess\RailwayReservationSystem.DataAccess.csproj", "{90D70764-25B5-4F37-92DB-83C8D5069B3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailwayReservationSystem.Models", "RailwayReservationSystem.Models\RailwayReservationSystem.Models.csproj", "{3FE8336E-25B0-44F5-9C58-F199BFB5CDEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailwayReservationSystem.Utility", "RailwayReservationSystem.Utility\RailwayReservationSystem.Utility.csproj", "{D8C9145E-7B2B-4C43-B41B-648A9693542A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{4F6056DC-6292-4D2B-881C-0660B1B1A8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F6056DC-6292-4D2B-881C-0660B1B1A8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F6056DC-6292-4D2B-881C-0660B1B1A8A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D70764-25B5-4F37-92DB-83C8D5069B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D70764-25B5-4F37-92DB-83C8D5069B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D70764-25B5-4F37-92DB-83C8D5069B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D70764-25B5-4F37-92DB-83C8D5069B3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE8336E-25B0-44F5-9C58-F199BFB5CDEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE8336E-25B0-44F5-9C58-F199BFB5CDEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE8336E-25B0-44F5-9C58-F199BFB5CDEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE8336E-25B0-44F5-9C58-F199BFB5CDEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
