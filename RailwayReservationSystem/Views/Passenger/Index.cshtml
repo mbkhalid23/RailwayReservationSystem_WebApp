@@ -1,0 +1,59 @@
+﻿@model List<Passenger>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3 w-75">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Passengers List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Passenger" asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i>&nbsp; Create New</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped mt-4 w-100">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    CNIC
+                </th>
+                <th>
+                    DOB
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="30%">
+                        @obj.Name
+                    </td>
+                    <td width="20%">
+                        @obj.CNIC
+                    </td>
+                    <td width="20%">
+                        @obj.DOB.ToShortDateString()
+                    </td>
+                    <td width="30%">
+                        @obj.Email
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Passenger" asp-action="Update" asp-route-id="@obj.PassengerId" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+                            <a asp-controller="Passenger" asp-action="Delete" asp-route-id="@obj.PassengerId" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

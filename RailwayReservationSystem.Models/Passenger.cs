@@ -14,12 +14,13 @@ namespace RailwayReservationSystem.Models
         public string Name { get; set; }
         public string CNIC { get; set; }
         public string Gender { get; set; }
+        [DataType(DataType.Date)]
         public DateTime DOB { get; set; }
         public int Age { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
 
         //Navigation Entries
-        public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Reservation>? Reservations { get; set; }
     }
 }
