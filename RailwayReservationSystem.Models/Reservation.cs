@@ -15,9 +15,9 @@ namespace RailwayReservationSystem.Models
         //Navigation Entries
         public int PassengerId { get; set; }
         public Passenger Passenger { get; set; }
-        public int ScheduleId { get; set; }
+        public int? ScheduleId { get; set; }
         public Schedule Schedule { get; set; }
-        public int StationId { get; set; }
+        public int? StationId { get; set; }
         public Station Station { get; set; }
     }
 }

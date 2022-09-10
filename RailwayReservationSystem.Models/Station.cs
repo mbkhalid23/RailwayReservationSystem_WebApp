@@ -19,7 +19,6 @@ namespace RailwayReservationSystem.Models
         public int AvailableSlots { get; set; }
 
         //Navigation entries
-        public int TrainNo { get; set; }
-        public Train Train;
+        public ICollection<Train> Trains { get; set; }
     }
 }
