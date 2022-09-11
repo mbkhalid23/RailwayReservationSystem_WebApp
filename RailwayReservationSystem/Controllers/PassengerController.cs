@@ -45,6 +45,7 @@ namespace RailwayReservationSystem.Controllers
             return View(obj);
         }
 
+        //GET
         public IActionResult Update(int? id)
         {
             if (id == null || id == 0)
@@ -80,6 +81,7 @@ namespace RailwayReservationSystem.Controllers
             return View(obj);
         }
 
+        //GET
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
