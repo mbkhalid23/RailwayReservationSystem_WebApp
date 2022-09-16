@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using RailwayReservationSystem.DataAccess.Data;
+using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using System.Linq;
 
@@ -8,16 +9,16 @@ namespace RailwayReservationSystem.Controllers
 {
     public class PassengerController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IPassengerRepository _db;
 
-        public PassengerController(ApplicationDbContext db)
+        public PassengerController(IPassengerRepository db)
         {
             _db = db;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Passenger> passengers = _db.Passengers;
+            IEnumerable<Passenger> passengers = _db.GetAll();
             return View(passengers);
         }
 
@@ -36,8 +37,8 @@ namespace RailwayReservationSystem.Controllers
 
             if (ModelState.IsValid)
             { 
-            _db.Passengers.Add(obj);
-            _db.SaveChanges();
+            _db.Add(obj);
+            _db.Save();
 
             return RedirectToAction("Index");
             }
@@ -53,7 +54,7 @@ namespace RailwayReservationSystem.Controllers
                 return NotFound();
             }
 
-            Passenger obj = _db.Passengers.FirstOrDefault(p => p.PassengerId == id);
+            Passenger obj = _db.GetFirstOrDefault(p => p.PassengerId == id);
 
             if(obj == null)
             {
@@ -72,8 +73,8 @@ namespace RailwayReservationSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Passengers.Update(obj);
-                _db.SaveChanges();
+                _db.Update(obj);
+                _db.Save();
 
                 return RedirectToAction("Index");
             }
@@ -89,7 +90,7 @@ namespace RailwayReservationSystem.Controllers
                 return NotFound();
             }
 
-            Passenger obj = _db.Passengers.FirstOrDefault(p => p.PassengerId == id);
+            Passenger obj = _db.GetFirstOrDefault(p => p.PassengerId == id);
 
             if (obj == null)
             {
@@ -109,15 +110,15 @@ namespace RailwayReservationSystem.Controllers
                 return NotFound();
             }
 
-            Passenger obj = _db.Passengers.FirstOrDefault(p => p.PassengerId == id); ;
+            Passenger obj = _db.GetFirstOrDefault(p => p.PassengerId == id); ;
 
             if(obj==null)
             {
                 return NotFound();
             }
 
-            _db.Passengers.Remove(obj);
-            _db.SaveChanges();
+            _db.Remove(obj);
+            _db.Save();
 
             return RedirectToAction("Index");
         }
