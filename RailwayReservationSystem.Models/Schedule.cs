@@ -12,10 +12,19 @@ namespace RailwayReservationSystem.Models
     {
         [Key]
         public int ScheduleId { get; set; }
+
+        [Required]
+        [MaxLength(30)]
         public string Source { get; set; }
+
+        [Required]
+        [MaxLength(30)]
         public string Destination { get; set; }
+
         public DateTime Departure { get; set; }
+        
         public DateTime Arrival { get; set; }
+        
         public TimeSpan Journey { get; set; }
 
         //Navigation Entries
