@@ -17,7 +17,7 @@ namespace RailwayReservationSystem.Controllers
 
         public IActionResult Index()
         {
-            var passengers = _db.Passengers.ToList();
+            IEnumerable<Passenger> passengers = _db.Passengers;
             return View(passengers);
         }
 
@@ -53,7 +53,7 @@ namespace RailwayReservationSystem.Controllers
                 return NotFound();
             }
 
-            Passenger obj = _db.Passengers.Find(id);
+            Passenger obj = _db.Passengers.FirstOrDefault(p => p.PassengerId == id);
 
             if(obj == null)
             {
@@ -89,7 +89,7 @@ namespace RailwayReservationSystem.Controllers
                 return NotFound();
             }
 
-            Passenger obj = _db.Passengers.Find(id);
+            Passenger obj = _db.Passengers.FirstOrDefault(p => p.PassengerId == id);
 
             if (obj == null)
             {
@@ -109,7 +109,7 @@ namespace RailwayReservationSystem.Controllers
                 return NotFound();
             }
 
-            Passenger obj = _db.Passengers.Find(id);
+            Passenger obj = _db.Passengers.FirstOrDefault(p => p.PassengerId == id); ;
 
             if(obj==null)
             {
