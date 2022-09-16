@@ -1,6 +1,5 @@
 ﻿using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
-using RailwayReservationSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace RailwayReservationSystem.DataAccess.Repository
 {
-    public class PassengerRepository : Repository<Passenger>, IPassengerRepository
+    public class UnitOfWork : IUnitOfWork
     {
         private ApplicationDbContext _db;
-        public PassengerRepository(ApplicationDbContext db) : base(db)
+        public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
+            Passenger = new PassengerRepository(_db);
         }
+        public IPassengerRepository Passenger { get; private set; }
 
-        public void Update(Passenger obj)
+        public void Save()
         {
-            _db.Update(obj);
+            _db.SaveChanges();
         }
     }
 }
