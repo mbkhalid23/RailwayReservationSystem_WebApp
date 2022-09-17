@@ -12,20 +12,10 @@ namespace RailwayReservationSystem.Models
     {
         [Key]
         public int StationId { get; set; }
-
-        [Required]
-        [MaxLength(50)]
         public string Name { get; set; }
-
-        [Required]
-        [MaxLength(30)]
         public string City { get; set; }
-
-        [Required]
         public int Capacity { get; set; }
-
         public int TrainsStationed { get; set; }
-
         public int AvailableSlots { get; set; }
 
         //Navigation entries

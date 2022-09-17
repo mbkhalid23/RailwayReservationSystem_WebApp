@@ -12,8 +12,6 @@ namespace RailwayReservationSystem.Models
     {
         [Key]
         public int TrainNo { get; set; }
-
-        [Required]
         public int Capacity { get; set; }
         public int SeatsAvailable { get; set; }
         public int SeatsBooked { get; set; }

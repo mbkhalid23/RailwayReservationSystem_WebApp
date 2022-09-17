@@ -35,31 +35,26 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.Property<string>("CNIC")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNo")
                         .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PassengerId");
 
@@ -77,10 +72,10 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                     b.Property<int>("PassengerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ScheduleId")
+                    b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StationId")
+                    b.Property<int>("StationId")
                         .HasColumnType("int");
 
                     b.HasKey("TicketNo");
@@ -110,18 +105,16 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.Property<string>("Destination")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan>("Journey")
                         .HasColumnType("time");
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TrainNo")
+                    b.Property<int>("TrainNo")
                         .HasColumnType("int");
 
                     b.HasKey("ScheduleId");
@@ -147,13 +140,11 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TrainsStationed")
                         .HasColumnType("int");
@@ -180,7 +171,7 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                     b.Property<int>("SeatsBooked")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StationId")
+                    b.Property<int>("StationId")
                         .HasColumnType("int");
 
                     b.HasKey("TrainNo");
@@ -200,11 +191,15 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.HasOne("RailwayReservationSystem.Models.Schedule", "Schedule")
                         .WithMany("Reservations")
-                        .HasForeignKey("ScheduleId");
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RailwayReservationSystem.Models.Station", "Station")
                         .WithMany()
-                        .HasForeignKey("StationId");
+                        .HasForeignKey("StationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Passenger");
 
@@ -217,7 +212,9 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                 {
                     b.HasOne("RailwayReservationSystem.Models.Train", "Train")
                         .WithMany("Schedule")
-                        .HasForeignKey("TrainNo");
+                        .HasForeignKey("TrainNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Train");
                 });
@@ -226,7 +223,9 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                 {
                     b.HasOne("RailwayReservationSystem.Models.Station", "Station")
                         .WithMany("Trains")
-                        .HasForeignKey("StationId");
+                        .HasForeignKey("StationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Station");
                 });
