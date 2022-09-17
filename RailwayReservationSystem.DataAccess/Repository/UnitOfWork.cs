@@ -10,13 +10,15 @@ namespace RailwayReservationSystem.DataAccess.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _db;
+        private readonly ApplicationDbContext _db;
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Passenger = new PassengerRepository(_db);
+            Train = new TrainRepository(_db);
         }
         public IPassengerRepository Passenger { get; private set; }
+        public ITrainRepository Train { get; set; }
 
         public void Save()
         {

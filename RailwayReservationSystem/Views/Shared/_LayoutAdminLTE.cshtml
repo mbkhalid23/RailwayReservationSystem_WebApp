@@ -15,6 +15,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="~/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/css/adminlte.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -195,9 +197,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                              with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
-                                <i class="fas fa-bus-alt"></i>
+                                @*<i class="fas fa-bus-alt"></i>*@
                                 <p>
-                                    &nbsp Admin
+                                    Admin
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -214,9 +216,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
-                                <i class="fas fa-user-tie"></i>
+                                @*<i class="fas fa-user-tie"></i>*@
                                 <p>
-                                    &nbsp Passenger
+                                    Passenger
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -246,6 +248,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <partial name="_Alerts" />
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->

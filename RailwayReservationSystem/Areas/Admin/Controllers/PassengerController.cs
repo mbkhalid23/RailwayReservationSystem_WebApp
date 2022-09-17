@@ -40,6 +40,8 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 _unitOfWork.Passenger.Add(obj);
                 _unitOfWork.Save();
 
+                TempData["success"] = "Passenger added successfully";
+
                 return RedirectToAction("Index");
             }
 
@@ -75,6 +77,8 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
             {
                 _unitOfWork.Passenger.Update(obj);
                 _unitOfWork.Save();
+
+                TempData["success"] = "Passenger updated successfully";
 
                 return RedirectToAction("Index");
             }
@@ -119,6 +123,8 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 
             _unitOfWork.Passenger.Remove(obj);
             _unitOfWork.Save();
+
+            TempData["success"] = "Passenger deleted successfully";
 
             return RedirectToAction("Index");
         }
