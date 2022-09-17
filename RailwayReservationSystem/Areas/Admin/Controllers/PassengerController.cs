@@ -5,7 +5,7 @@ using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using System.Linq;
 
-namespace RailwayReservationSystem.Controllers
+namespace RailwayReservationSystem.Areas.Admin.Controllers
 {
     public class PassengerController : Controller
     {
@@ -40,7 +40,7 @@ namespace RailwayReservationSystem.Controllers
                 _unitOfWork.Passenger.Add(obj);
                 _unitOfWork.Save();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             return View(obj);
@@ -56,7 +56,7 @@ namespace RailwayReservationSystem.Controllers
 
             Passenger obj = _unitOfWork.Passenger.GetFirstOrDefault(p => p.PassengerId == id);
 
-            if(obj == null)
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -105,14 +105,14 @@ namespace RailwayReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePassenger(int? id)
         {
-            if (id==null || id==0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
 
             Passenger obj = _unitOfWork.Passenger.GetFirstOrDefault(p => p.PassengerId == id); ;
 
-            if(obj==null)
+            if (obj == null)
             {
                 return NotFound();
             }

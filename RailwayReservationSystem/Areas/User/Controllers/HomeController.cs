@@ -2,7 +2,7 @@
 using RailwayReservationSystem.Models;
 using System.Diagnostics;
 
-namespace RailwayReservationSystem.Controllers
+namespace RailwayReservationSystem.Areas.User.Controllers
 {
     public class HomeController : Controller
     {
