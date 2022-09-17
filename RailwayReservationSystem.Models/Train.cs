@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -19,8 +20,10 @@ namespace RailwayReservationSystem.Models
         public int SeatsBooked { get; set; }
 
         //Navigation Entries
-        public ICollection<Schedule> Schedule { get; set; }
+        public ICollection<Schedule>? Schedule { get; set; }
+
+        [DisplayName("Stationed At")]
         public int? StationId { get; set; }
-        public Station Station { get; set; }
+        public Station? Station { get; set; }
     }
 }

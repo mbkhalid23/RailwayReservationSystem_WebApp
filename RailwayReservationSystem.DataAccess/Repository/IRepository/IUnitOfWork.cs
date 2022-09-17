@@ -9,6 +9,7 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
     public interface IUnitOfWork
     {
         IPassengerRepository Passenger { get; }
+        ITrainRepository Train { get; }
         void Save();
     }
 }
