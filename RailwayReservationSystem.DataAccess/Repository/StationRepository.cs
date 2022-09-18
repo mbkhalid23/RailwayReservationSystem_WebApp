@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace RailwayReservationSystem.DataAccess.Repository
 {
-    public class TrainRepository : Repository<Train>, ITrainRepository
+    public class StationRepository : Repository<Station>, IStationRepository
     {
         private readonly ApplicationDbContext _db;
-        public TrainRepository(ApplicationDbContext db) : base(db)
+
+        public StationRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Train obj)
+        public void update(Station obj)
         {
             _db.Update(obj);
         }

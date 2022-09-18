@@ -16,9 +16,11 @@ namespace RailwayReservationSystem.DataAccess.Repository
             _db = db;
             Passenger = new PassengerRepository(_db);
             Train = new TrainRepository(_db);
+            Station = new StationRepository(_db);
         }
         public IPassengerRepository Passenger { get; private set; }
         public ITrainRepository Train { get; set; }
+        public IStationRepository Station { get; set; }
 
         public void Save()
         {
