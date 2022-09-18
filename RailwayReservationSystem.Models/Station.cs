@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -24,11 +25,13 @@ namespace RailwayReservationSystem.Models
         [Required]
         public int Capacity { get; set; }
 
+        [DisplayName("Trains Stationed")]
         public int TrainsStationed { get; set; }
 
+        [DisplayName("Available Slots")]
         public int AvailableSlots { get; set; }
 
         //Navigation entries
-        public ICollection<Train> Trains { get; set; }
+        public ICollection<Train>? Trains { get; set; }
     }
 }

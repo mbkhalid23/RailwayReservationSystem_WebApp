@@ -18,7 +18,7 @@ namespace RailwayReservationSystem.DataAccess.Repository
             _db = db;
         }
 
-        public void update(Station obj)
+        public void Update(Station obj)
         {
             _db.Update(obj);
         }

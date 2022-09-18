@@ -9,6 +9,6 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
 {
     public interface IStationRepository : IRepository<Station>
     {
-        void update(Station obj);
+        void Update(Station obj);
     }
 }

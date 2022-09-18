@@ -1,0 +1,32 @@
+﻿@model Station
+
+<form method="post" class="container w-50 py-4">
+    <div class="border rounded-4 p-3">
+        <div class="row pb-2">
+            <h2 class="text-primary">Add Station</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="City"></label>
+            <input asp-for="City" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Capacity"></label>
+            <input asp-for="Capacity" class="form-control" />
+            <span asp-validation-for="Capacity" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="TrainsStationed"></label>
+            <input asp-for="TrainsStationed" class="form-control" />
+            <span asp-validation-for="TrainsStationed" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-controller="Station" asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>

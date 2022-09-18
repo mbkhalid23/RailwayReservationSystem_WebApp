@@ -1,4 +1,4 @@
-﻿@model List<Train>
+﻿@model List<Station>
 @{
     ViewData["Title"] = "Index";
 }
@@ -6,29 +6,29 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Trains List</h2>
+            <h2 class="text-primary">Stations List</h2>
         </div>
         <div class="col-6 text-right">
-            <a asp-controller="Train" asp-action="Create" class="btn btn-primary"><i class="far fa-plus-square"></i>&nbsp; Create New</a>
+            <a asp-controller="Station" asp-action="Create" class="btn btn-primary"><i class="far fa-plus-square"></i>&nbsp; Create New</a>
         </div>
     </div>
     <table class="table table-bordered table-striped mt-4">
         <thead class="thead-dark">
             <tr>
                 <th>
-                    Train No
+                    Station
+                </th>
+                <th>
+                    City
                 </th>
                 <th>
                     Capacity
                 </th>
                 <th>
-                    Seats Avaiable
+                    Trains Stationed
                 </th>
                 <th>
-                    Seats Booked
-                </th>
-                <th>
-                    Station
+                    Available Slots
                 </th>
                 <th>
                     Edit/Delete
@@ -40,24 +40,24 @@
             {
                 <tr>
                     <td>
-                        @obj.TrainNo
+                        @obj.Name
+                    </td>
+                    <td>
+                        @obj.City
                     </td>
                     <td>
                         @obj.Capacity
                     </td>
                     <td>
-                        @obj.SeatsAvailable
+                        @obj.TrainsStationed
                     </td>
                     <td>
-                        @obj.SeatsBooked
-                    </td>
-                    <td>
-                        @obj.StationId
+                        @obj.AvailableSlots
                     </td>
                     <td>
                         <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Train" asp-action="Update" asp-route-id="@obj.TrainNo" class="btn btn-primary mx-2"><i class="fas fa-edit"></i></a>
-                            <a asp-controller="Train" asp-action="Delete" asp-route-id="@obj.TrainNo" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i></a>
+                            <a asp-controller="Station" asp-action="Update" asp-route-id="@obj.StationId" class="btn btn-primary mx-2"><i class="fas fa-edit"></i></a>
+                            <a asp-controller="Station" asp-action="Delete" asp-route-id="@obj.StationId" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </td>
                 </tr>
