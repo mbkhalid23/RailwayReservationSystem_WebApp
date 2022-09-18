@@ -148,6 +148,13 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            if(obj.SeatsBooked != 0)
+            {
+                TempData["error"] = "Cannot delete train: it has some seats booked";
+
+                return View(obj);
+            }
+
             _unitOfWork.Train.Remove(obj);
             _unitOfWork.Save();
 
