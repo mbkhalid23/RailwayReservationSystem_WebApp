@@ -8,6 +8,11 @@
         </div>
         <input hidden asp-for="TrainNo" />
         <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input disabled asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
             <label asp-for="Capacity"></label>
             <input disabled asp-for="Capacity" class="form-control" />
             <span asp-validation-for="Capacity" class="text-danger"></span>
@@ -18,14 +23,14 @@
             <span asp-validation-for="StationId" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="SeatsAvailable"></label>
-            <input disabled asp-for="SeatsAvailable" class="form-control" />
-            <span asp-validation-for="SeatsAvailable" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
             <label asp-for="SeatsBooked"></label>
             <input disabled asp-for="SeatsBooked" class="form-control" />
             <span asp-validation-for="SeatsBooked" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SeatsAvailable"></label>
+            <input disabled asp-for="SeatsAvailable" class="form-control" />
+            <span asp-validation-for="SeatsAvailable" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-danger">Delete</button>
         <a asp-controller="Train" asp-action="Index" class="btn btn-secondary">Back to List</a>

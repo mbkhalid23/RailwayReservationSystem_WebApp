@@ -15,13 +15,18 @@ namespace RailwayReservationSystem.Models
         public int TrainNo { get; set; }
 
         [Required]
-        public int Capacity { get; set; }
+        [MaxLength(50)]
+        [StringLength(50)]
+        public string Name { get; set; }
 
-        [DisplayName("Seats Available")]
-        public int SeatsAvailable { get; set; }
+        [Required]
+        public int Capacity { get; set; }
 
         [DisplayName("Seats Booked")]
         public int SeatsBooked { get; set; }
+
+        [DisplayName("Seats Available")]
+        public int SeatsAvailable { get; set; }
 
         //Navigation Entries
         public ICollection<Schedule>? Schedule { get; set; }

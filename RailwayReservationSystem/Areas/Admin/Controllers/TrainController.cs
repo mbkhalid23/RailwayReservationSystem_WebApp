@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.FileProviders;
 using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
@@ -25,6 +26,15 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         //GET
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> StationList = _unitOfWork.Station.GetAll().Select(
+                s => new SelectListItem
+                {
+                    Text = s.City + ", " + s.Name,
+                    Value = s.StationId.ToString()
+                });
+
+            ViewBag.StationList = StationList;
+
             return View();
         }
 
@@ -63,6 +73,15 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            IEnumerable<SelectListItem> StationList = _unitOfWork.Station.GetAll().Select(
+                s => new SelectListItem
+                {
+                    Text = s.City + ", " + s.Name,
+                    Value = s.StationId.ToString()
+                });
+
+            ViewBag.StationList = StationList;
 
             return View(obj);
         }

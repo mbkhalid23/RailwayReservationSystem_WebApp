@@ -7,13 +7,20 @@
             <hr />
         </div>
         <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
             <label asp-for="Capacity"></label>
             <input asp-for="Capacity" class="form-control" />
             <span asp-validation-for="Capacity" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="StationId"></label>
-            <input asp-for="StationId" class="form-control" />
+            <select asp-for="StationId" asp-items="ViewBag.StationList" class="form-control">
+                <option disabled selected>--Select Station--</option>
+            </select>
             <span asp-validation-for="StationId" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
