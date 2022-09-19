@@ -1,4 +1,4 @@
-﻿@model Train
+﻿@model RailwayReservationSystem.Models.ViewModels.TrainsViewModel 
 
 <form method="post" class="container w-50 py-4">
     <div class="border rounded-4 p-3">
@@ -7,21 +7,21 @@
             <hr />
         </div>
         <div class="mb-3">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Train.Name"></label>
+            <input asp-for="Train.Name" class="form-control" />
+            <span asp-validation-for="Train.Name" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Capacity"></label>
-            <input asp-for="Capacity" class="form-control" />
-            <span asp-validation-for="Capacity" class="text-danger"></span>
+            <label asp-for="Train.Capacity"></label>
+            <input asp-for="Train.Capacity" class="form-control" />
+            <span asp-validation-for="Train.Capacity" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="StationId"></label>
-            <select asp-for="StationId" asp-items="ViewBag.StationList" class="form-control">
+            <label asp-for="Train.StationId"></label>
+            <select asp-for="Train.StationId" asp-items="@Model.StationsList" class="form-control">
                 <option disabled selected>--Select Station--</option>
             </select>
-            <span asp-validation-for="StationId" class="text-danger"></span>
+            <span asp-validation-for="Train.StationId" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
         <a asp-controller="Train" asp-action="Index" class="btn btn-secondary">Back to List</a>

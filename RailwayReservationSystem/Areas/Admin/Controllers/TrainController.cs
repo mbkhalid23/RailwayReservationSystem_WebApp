@@ -4,6 +4,7 @@ using Microsoft.Extensions.FileProviders;
 using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
+using RailwayReservationSystem.Models.ViewModels;
 using System.Linq;
 
 namespace RailwayReservationSystem.Areas.Admin.Controllers
@@ -26,29 +27,33 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         //GET
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> StationList = _unitOfWork.Station.GetAll().Select(
-                s => new SelectListItem
-                {
-                    Text = s.City + ", " + s.Name,
-                    Value = s.StationId.ToString()
-                });
+            TrainsViewModel TrainsView = new();
+            {
+                TrainsView.Train = new();
 
-            ViewBag.StationList = StationList;
+                TrainsView.StationsList = _unitOfWork.Station.GetAll().Select(
+                    s => new SelectListItem
+                    {
+                        Text = s.City + ", " + s.Name,
+                        Value = s.StationId.ToString()
+                    });
+                
+            };
 
-            return View();
+                return View(TrainsView);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Train obj)
+        public IActionResult Create(TrainsViewModel obj)
         {
-            obj.SeatsBooked = 0;
-            obj.SeatsAvailable = obj.Capacity;
+            obj.Train.SeatsBooked = 0;
+            obj.Train.SeatsAvailable = obj.Train.Capacity;
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Train.Add(obj);
+                _unitOfWork.Train.Add(obj.Train);
                 _unitOfWork.Save();
 
                 TempData["success"] = "Train added successfully";
@@ -67,42 +72,44 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            Train obj = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == id);
-
-            if (obj == null)
+            TrainsViewModel TrainsView = new();
             {
-                return NotFound();
-            }
+                TrainsView.Train = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == id);
 
-            IEnumerable<SelectListItem> StationList = _unitOfWork.Station.GetAll().Select(
-                s => new SelectListItem
+                if (TrainsView.Train == null)
                 {
-                    Text = s.City + ", " + s.Name,
-                    Value = s.StationId.ToString()
-                });
+                    return NotFound();
+                }
 
-            ViewBag.StationList = StationList;
+                TrainsView.StationsList = _unitOfWork.Station.GetAll().Select(
+                    s => new SelectListItem
+                    {
+                        Text = s.City + ", " + s.Name,
+                        Value = s.StationId.ToString()
+                    });
 
-            return View(obj);
+            };
+
+            return View(TrainsView);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Train obj)
+        public IActionResult Update(TrainsViewModel obj)
         {
-            if (obj.Capacity < obj.SeatsBooked)
+            if (obj.Train.Capacity < obj.Train.SeatsBooked)
             {
                 TempData["error"] = "Capacity cannot be less than seats booked";
 
                 return View(obj);
             }
 
-            obj.SeatsAvailable = obj.Capacity - obj.SeatsBooked;
+            obj.Train.SeatsAvailable = obj.Train.Capacity - obj.Train.SeatsBooked;
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Train.Update(obj);
+                _unitOfWork.Train.Update(obj.Train);
                 _unitOfWork.Save();
 
                 TempData["success"] = "Train updated successfully";
