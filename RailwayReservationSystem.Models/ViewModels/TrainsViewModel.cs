@@ -11,5 +11,6 @@ namespace RailwayReservationSystem.Models.ViewModels
     {
         public Train Train { get; set; }
         public IEnumerable<SelectListItem>? StationsList { get; set; }
+        public int PrevStation { get; set; }
     }
 }

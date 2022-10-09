@@ -35,7 +35,7 @@ namespace RailwayReservationSystem.Models
 
         [DisplayName("Stationed At")]
         [ValidateNever]
-        public int? StationId { get; set; }
+        public int StationId { get; set; }
         [ValidateNever]
         public Station Station { get; set; }
     }

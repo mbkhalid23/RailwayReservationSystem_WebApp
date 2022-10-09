@@ -26,17 +26,34 @@ namespace RailwayReservationSystem.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? IncludeProperties = null)
         {
             IQueryable<T> query = dbSet;
+
+            if (IncludeProperties != null)
+            {
+                foreach (var includeProp in IncludeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? IncludeProperties = null)
         {
             IQueryable<T> query = dbSet;
 
             query = query.Where(filter);
+
+            if (IncludeProperties != null)
+            {
+                foreach (var includeProp in IncludeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
 
             return query.FirstOrDefault();
         }

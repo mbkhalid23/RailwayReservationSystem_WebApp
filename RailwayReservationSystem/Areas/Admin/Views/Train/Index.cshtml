@@ -31,6 +31,9 @@
                     Station
                 </th>
                 <th>
+                    City
+                </th>
+                <th>
                     Edit/Delete
                 </th>
             </tr>
@@ -52,7 +55,10 @@
                         @obj.SeatsAvailable
                     </td>
                     <td>
-                        @obj.StationId
+                        @obj.Station.Name
+                    </td>
+                    <td>
+                        @obj.Station.City
                     </td>
                     <td>
                         <div class="w-75 btn-group" role="group">
