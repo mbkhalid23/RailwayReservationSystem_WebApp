@@ -17,6 +17,7 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            //Get all stations
             IEnumerable<Station> stations = _unitOfWork.Station.GetAll();
 
             return View(stations);
@@ -34,17 +35,13 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         public IActionResult Create(Station obj)
         {
 
-            if (obj.TrainsStationed > obj.Capacity)
-            {
-                TempData["error"] = "Trains Stationed cannot be greater than Station's capacity";
-
-                return View(obj);
-            }
-
-            obj.AvailableSlots = obj.Capacity - obj.TrainsStationed;
-
             if (ModelState.IsValid)
             {
+                //Initialize trains stationed to 0 and available slots to max
+                obj.TrainsStationed = 0;
+                obj.AvailableSlots = obj.Capacity;
+
+                //Add station to the database
                 _unitOfWork.Station.Add(obj);
                 _unitOfWork.Save();
 
@@ -58,13 +55,16 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         //GET
         public IActionResult Update(int? id)
         {
+            //Check if id is null or 0
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
+            //Get station to pass it to the view
             Station obj = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == id);
 
+            //Check if the station object is null
             if (obj == null)
             {
                 return NotFound();
@@ -78,17 +78,19 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Station obj)
         {
-            if (obj.TrainsStationed > obj.Capacity)
+            //Check if the user accidently set the capacity station's capacity than the trains already stationed. We will lose data otherwise
+            if (obj.Capacity < obj.TrainsStationed)
             {
-                TempData["error"] = "Trains Stationed cannot be greater than Station's capacity";
-
+                TempData["error"] = "Capcity can't be less than the trains already staioned";
                 return View(obj);
             }
-
-            obj.AvailableSlots = obj.Capacity - obj.TrainsStationed;
-
+            
             if (ModelState.IsValid)
             {
+                //Update the available slots on the station
+                obj.AvailableSlots = obj.Capacity - obj.TrainsStationed;
+
+                //Update station in the database
                 _unitOfWork.Station.Update(obj);
                 _unitOfWork.Save();
 
@@ -103,13 +105,16 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         //GET
         public IActionResult Delete(int? id)
         {
+            //check if the id is null or 0
             if(id == null || id == 0)
             {
                 return NotFound();
             }
 
+            //Get station object to pass it to the view
             Station obj = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == id);
 
+            //Check if the station object is null
             if(obj == null)
             {
                 return NotFound();
@@ -123,18 +128,29 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteStation(int? id)
         {
+            //Check if the is null or 0
             if(id == null || id == 0)
             {
                 return NotFound();
             }
 
+            //Get station
             Station obj = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == id);
 
+            //Check if station object is null
             if (obj == null)
             {
                 return NotFound();
             }
 
+            //Check if there are any trains stationed at the given station
+            if (obj.TrainsStationed > 0)
+            {
+                TempData["error"] = "Can't delete the station: There are some trains stationed here";
+                return View(obj);
+            }
+
+            //Remove station from database
             _unitOfWork.Station.Remove(obj);
             _unitOfWork.Save();
 
