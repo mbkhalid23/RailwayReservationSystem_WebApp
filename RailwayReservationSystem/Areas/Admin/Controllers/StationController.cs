@@ -5,6 +5,8 @@ using RailwayReservationSystem.Models;
 
 namespace RailwayReservationSystem.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+
     public class StationController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

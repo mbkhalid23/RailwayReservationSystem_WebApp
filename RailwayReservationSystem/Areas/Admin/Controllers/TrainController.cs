@@ -9,6 +9,8 @@ using System.Linq;
 
 namespace RailwayReservationSystem.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+
     public class TrainController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

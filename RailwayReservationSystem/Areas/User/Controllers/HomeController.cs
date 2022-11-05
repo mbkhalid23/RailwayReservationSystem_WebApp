@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace RailwayReservationSystem.Areas.User.Controllers
 {
+    [Area("User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
