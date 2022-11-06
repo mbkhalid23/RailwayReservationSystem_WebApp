@@ -28,11 +28,11 @@ namespace RailwayReservationSystem.Models
 
         [Required]
         [ValidateNever]
-        public Station From { get; set; }
+        public Station Source { get; set; }
 
         [Required]
         [ValidateNever]
-        public Station To { get; set; }
+        public Station Destination { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RailwayReservationSystem.DataAccess.Data;
 
@@ -11,9 +12,10 @@ using RailwayReservationSystem.DataAccess.Data;
 namespace RailwayReservationSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221106192145_RenameInverseProperties")]
+    partial class RenameInverseProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,7 +269,7 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.HasKey("PassengerId");
 
-                    b.ToTable("Passengers", (string)null);
+                    b.ToTable("Passengers");
                 });
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Reservation", b =>
@@ -300,7 +302,7 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Schedule", b =>
@@ -337,7 +339,7 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.HasIndex("TrainNo");
 
-                    b.ToTable("Schedule", (string)null);
+                    b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Station", b =>
@@ -369,7 +371,7 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.HasKey("StationId");
 
-                    b.ToTable("Stations", (string)null);
+                    b.ToTable("Stations");
                 });
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Train", b =>
@@ -401,7 +403,7 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("Trains", (string)null);
+                    b.ToTable("Trains");
                 });
 
             modelBuilder.Entity("RailwayReservationSystem.Models.ApplicationUser", b =>

@@ -37,11 +37,11 @@ namespace RailwayReservationSystem.Models
         public ICollection<Train> Trains { get; set; }
 
         [ValidateNever]
-        [InverseProperty("From")]
-        public List<Schedule> Source { get; set; }
+        [InverseProperty("Source")]
+        public List<Schedule> AsSource { get; set; }
 
         [ValidateNever]
-        [InverseProperty("To")]
-        public List<Schedule> Destination { get; set; }
+        [InverseProperty("Destination")]
+        public List<Schedule> AsDestination { get; set; }
     }
 }
