@@ -17,10 +17,12 @@ namespace RailwayReservationSystem.DataAccess.Repository
             Passenger = new PassengerRepository(_db);
             Train = new TrainRepository(_db);
             Station = new StationRepository(_db);
+            Schedule = new ScheduleRepository(_db);
         }
         public IPassengerRepository Passenger { get; private set; }
         public ITrainRepository Train { get; private set; }
         public IStationRepository Station { get; private set; }
+        public IScheduleRepository Schedule { get; set; }
 
         public void Save()
         {
