@@ -8,5 +8,7 @@ namespace RailwayReservationSystem.Utility
 {
     public static class SD
     {
+        public const string Role_Passenger = "Passenger";
+        public const string Role_Admin = "Admin";
     }
 }

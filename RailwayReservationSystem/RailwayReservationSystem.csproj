@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RailwayReservationSystem.DataAccess\RailwayReservationSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\RailwayReservationSystem.Utility\RailwayReservationSystem.Utility.csproj" />
   </ItemGroup>
 
 </Project>

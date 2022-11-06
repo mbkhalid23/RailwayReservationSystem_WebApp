@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RailwayReservationSystem.DataAccess.Data;
 
@@ -11,9 +12,10 @@ using RailwayReservationSystem.DataAccess.Data;
 namespace RailwayReservationSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221105071717_AddIdentityTables")]
+    partial class AddIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,10 +88,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -141,8 +139,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -282,9 +278,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketNo"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("PassengerId")
                         .HasColumnType("int");
 
@@ -295,8 +288,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TicketNo");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("PassengerId");
 
@@ -408,33 +399,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                     b.ToTable("Trains");
                 });
 
-            modelBuilder.Entity("RailwayReservationSystem.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int?>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CNIC")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<DateTime?>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Gender")
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -488,10 +452,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Reservation", b =>
                 {
-                    b.HasOne("RailwayReservationSystem.Models.ApplicationUser", null)
-                        .WithMany("Reservations")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("RailwayReservationSystem.Models.Passenger", "Passenger")
                         .WithMany("Reservations")
                         .HasForeignKey("PassengerId")
@@ -551,11 +511,6 @@ namespace RailwayReservationSystem.DataAccess.Migrations
             modelBuilder.Entity("RailwayReservationSystem.Models.Train", b =>
                 {
                     b.Navigation("Schedule");
-                });
-
-            modelBuilder.Entity("RailwayReservationSystem.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }
