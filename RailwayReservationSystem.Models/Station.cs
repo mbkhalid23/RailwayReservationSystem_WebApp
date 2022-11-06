@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -32,6 +33,15 @@ namespace RailwayReservationSystem.Models
         public int AvailableSlots { get; set; }
 
         //Navigation entries
-        public ICollection<Train>? Trains { get; set; }
+        [ValidateNever]
+        public ICollection<Train> Trains { get; set; }
+
+        [ValidateNever]
+        [InverseProperty("From")]
+        public List<Schedule> Source { get; set; }
+
+        [ValidateNever]
+        [InverseProperty("To")]
+        public List<Schedule> Destination { get; set; }
     }
 }

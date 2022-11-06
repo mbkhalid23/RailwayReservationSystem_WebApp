@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace RailwayReservationSystem.Models
 {
@@ -12,14 +13,6 @@ namespace RailwayReservationSystem.Models
     {
         [Key]
         public int ScheduleId { get; set; }
-
-        [Required]
-        [MaxLength(30)]
-        public string Source { get; set; }
-
-        [Required]
-        [MaxLength(30)]
-        public string Destination { get; set; }
 
         public DateTime Departure { get; set; }
         
@@ -30,7 +23,17 @@ namespace RailwayReservationSystem.Models
         //Navigation Entries
         [ForeignKey("Train")]
         public int? TrainNo { get; set; }
+        [ValidateNever]
         public Train Train { get; set; }
+
+        [Required]
+        [ValidateNever]
+        public Station From { get; set; }
+
+        [Required]
+        [ValidateNever]
+        public Station To { get; set; }
+
         public ICollection<Reservation> Reservations { get; set; }
     }
 }

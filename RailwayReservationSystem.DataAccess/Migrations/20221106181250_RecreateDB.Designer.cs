@@ -12,8 +12,8 @@ using RailwayReservationSystem.DataAccess.Data;
 namespace RailwayReservationSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221105143951_ExtendIdentityUser")]
-    partial class ExtendIdentityUser
+    [Migration("20221106181250_RecreateDB")]
+    partial class RecreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,12 +175,10 @@ namespace RailwayReservationSystem.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -217,12 +215,10 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -323,23 +319,23 @@ namespace RailwayReservationSystem.DataAccess.Migrations
                     b.Property<DateTime>("Departure")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Destination")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<int>("FromStationId")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("Journey")
                         .HasColumnType("time");
 
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<int>("ToStationId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("TrainNo")
                         .HasColumnType("int");
 
                     b.HasKey("ScheduleId");
+
+                    b.HasIndex("FromStationId");
+
+                    b.HasIndex("ToStationId");
 
                     b.HasIndex("TrainNo");
 
@@ -517,9 +513,25 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Schedule", b =>
                 {
+                    b.HasOne("RailwayReservationSystem.Models.Station", "From")
+                        .WithMany("Source")
+                        .HasForeignKey("FromStationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RailwayReservationSystem.Models.Station", "To")
+                        .WithMany("Destination")
+                        .HasForeignKey("ToStationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RailwayReservationSystem.Models.Train", "Train")
                         .WithMany("Schedule")
                         .HasForeignKey("TrainNo");
+
+                    b.Navigation("From");
+
+                    b.Navigation("To");
 
                     b.Navigation("Train");
                 });
@@ -547,6 +559,10 @@ namespace RailwayReservationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("RailwayReservationSystem.Models.Station", b =>
                 {
+                    b.Navigation("Destination");
+
+                    b.Navigation("Source");
+
                     b.Navigation("Trains");
                 });
 
