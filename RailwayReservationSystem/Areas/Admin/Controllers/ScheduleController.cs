@@ -23,7 +23,7 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Schedule> ScheduleList = _unitOfWork.Schedule.GetAll("Train,From,To");
+            IEnumerable<Schedule> ScheduleList = _unitOfWork.Schedule.GetAll("Train,Source,Destination");
 
             return View(ScheduleList);
         }
