@@ -1,0 +1,85 @@
+﻿@model List<Schedule>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Schedule</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Schedule" asp-action="Create" class="btn btn-primary"><i class="far fa-plus-square"></i>&nbsp; Add New</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    Departure
+                </th>
+                <th>
+                    Arrival
+                </th>
+                <th>
+                    Journey
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                    Destination
+                </th>
+                <th>
+                    Seats Left
+                </th>
+                <th>
+                    Total Seats
+                </th>
+                <th>
+                    Train
+                </th>
+                <th>
+                    Edit/Delete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schedule in Model)
+            {
+                <tr>
+                    <td>
+                        @schedule.Departure.ToShortDateString() @schedule.Departure.ToShortTimeString()
+                    </td>
+                    <td>
+                        @schedule.Arrival.ToShortDateString() @schedule.Arrival.ToShortTimeString()
+                    </td>
+                    <td>
+                        @schedule.Journey.Hours hr @schedule.Journey.Minutes min
+                    </td>
+                    <td>
+                        @schedule.Source
+                    </td>
+                    <td>
+                        @schedule.Destination
+                    </td>
+                    <td>
+                        @schedule.Train.SeatsAvailable
+                    </td>
+                    <td>
+                        @schedule.Train.Capacity
+                    </td>
+                    <td>
+                        @schedule.Train.Name
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Schedule" asp-action="Update" asp-route-id="@schedule.ScheduleId" class="btn btn-primary mx-2"><i class="fas fa-edit"></i></a>
+                            <a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.ScheduleId" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
