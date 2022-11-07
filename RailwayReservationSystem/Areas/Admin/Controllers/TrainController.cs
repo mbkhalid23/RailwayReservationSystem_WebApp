@@ -54,6 +54,18 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (TrainsView.Train.StationId == 0)
+                {
+                    TempData["error"] = "Please select a Station";
+                    return View(TrainsView);
+                }
+                if (TrainsView.Train.Capacity < 0)
+                {
+                    TempData["error"] = "Capacity cannot be less than 0";
+
+                    return View(TrainsView);
+                }
                 //Get station
                 TrainsView.Train.Station = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == TrainsView.Train.StationId);
 

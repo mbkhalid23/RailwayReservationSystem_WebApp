@@ -33,8 +33,8 @@ namespace RailwayReservationSystem.Models
         [ValidateNever]
         public ICollection<Schedule> Schedule { get; set; }
 
+        [Required]
         [DisplayName("Stationed At")]
-        [ValidateNever]
         public int StationId { get; set; }
         [ValidateNever]
         public Station Station { get; set; }

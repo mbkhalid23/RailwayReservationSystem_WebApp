@@ -14,26 +14,29 @@ namespace RailwayReservationSystem.Models
         [Key]
         public int ScheduleId { get; set; }
 
-        public DateTime Departure { get; set; }
-        
-        public DateTime Arrival { get; set; }
+        public DateTime Departure { get; set; } = DateTime.Now;
+
+        public DateTime Arrival { get; set; } = DateTime.Now;
         
         public TimeSpan Journey { get; set; }
 
         //Navigation Entries
         [ForeignKey("Train")]
-        public int? TrainNo { get; set; }
+        public int TrainNo { get; set; }
         [ValidateNever]
         public Train Train { get; set; }
 
-        [Required]
+        [ForeignKey("Source")]
+        public int SourceStationId { get; set; }
         [ValidateNever]
         public Station Source { get; set; }
 
-        [Required]
+        [ForeignKey("Destination")]
+        public int DestinationStationId { get; set; }
         [ValidateNever]
         public Station Destination { get; set; }
 
+        [ValidateNever]
         public ICollection<Reservation> Reservations { get; set; }
     }
 }

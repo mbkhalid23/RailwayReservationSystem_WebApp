@@ -31,58 +31,67 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         //GET
         public IActionResult Create()
         {
-            //Retrive a list of available stations for the dropdown
-            TrainsViewModel TrainsView = new();
+            ScheduleViewModel ScheduleView = new();
             {
-                TrainsView.Train = new();
+                ScheduleView.Schedule = new();
 
-                TrainsView.StationsList = _unitOfWork.Station.GetAll().Select(
+                ScheduleView.StationsList = _unitOfWork.Station.GetAll().Select(
                     s => new SelectListItem
                     {
                         Text = s.City + ", " + s.Name,
                         Value = s.StationId.ToString()
                     }).OrderBy(x => x.Text);
-                
+
+                ScheduleView.TrainsList = _unitOfWork.Train.GetAll().Select(
+                    t => new SelectListItem
+                    {
+                        Text = t.Name,
+                        Value = t.TrainNo.ToString()
+                    });
             };
 
-                return View(TrainsView);
+                return View(ScheduleView);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(TrainsViewModel TrainsView)
+        public IActionResult Create(ScheduleViewModel ScheduleView)
         {
             if (ModelState.IsValid)
             {
-                //Get station
-                TrainsView.Train.Station = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == TrainsView.Train.StationId);
-
-                //Check if the station has space available  for the train
-                if (TrainsView.Train.Station.AvailableSlots <= 0)
+                if(ScheduleView.Schedule.SourceStationId == 0 || ScheduleView.Schedule.DestinationStationId == 0 ||ScheduleView.Schedule.TrainNo == 0)
                 {
-                    TempData["error"] = "Station already at Max capacity. Can't Add a new Train";
-                    return View(TrainsView);
+                    TempData["error"] = "Source, Destination, and Train can't be empty";
+                    return View(ScheduleView);
                 }
 
-                //Train arrives at the station
-                TrainsView.Train.Station.TrainsStationed++;
-                TrainsView.Train.Station.AvailableSlots--;
+                if(ScheduleView.Schedule.SourceStationId == ScheduleView.Schedule.DestinationStationId)
+                {
+                    TempData["error"] = "Source and Destination can't be same";
+                    return View(ScheduleView);
+                }
+                
+                ScheduleView.Schedule.Train = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == ScheduleView.Schedule.TrainNo);
 
-                //Initialize seats booked and setas available
-                TrainsView.Train.SeatsBooked = 0;
-                TrainsView.Train.SeatsAvailable = TrainsView.Train.Capacity;
+                if (ScheduleView.Schedule.Train.StationId != ScheduleView.Schedule.SourceStationId)
+                {
+                    TempData["error"] = "This train is not available at the Source Station";
+                    return View(ScheduleView);
+                }
 
-                //Add the train to database
-                _unitOfWork.Train.Add(TrainsView.Train);
+                ScheduleView.Schedule.Journey = ScheduleView.Schedule.Arrival - ScheduleView.Schedule.Departure;
+
+                //Add the Schedule entry to database
+                _unitOfWork.Schedule.Add(ScheduleView.Schedule);
                 _unitOfWork.Save();
 
-                TempData["success"] = "Train added successfully";
+                TempData["success"] = "Schedule entry added successfully";
 
                 return RedirectToAction("Index");
             }
 
-            return View(TrainsView);
+            return View(ScheduleView);
         }
 
         //GET

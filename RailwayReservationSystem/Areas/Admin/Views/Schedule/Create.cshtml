@@ -1,29 +1,43 @@
-﻿@model RailwayReservationSystem.Models.ViewModels.TrainsViewModel 
+﻿@model RailwayReservationSystem.Models.ViewModels.ScheduleViewModel
 
 <form method="post" class="container w-50 py-4">
     <div class="border rounded-4 p-3">
         <div class="row pb-2">
-            <h2 class="text-primary">Add Train</h2>
+            <h2 class="text-primary">Add Schedule</h2>
             <hr />
         </div>
         <div class="mb-3">
-            <label asp-for="Train.Name"></label>
-            <input asp-for="Train.Name" class="form-control" />
-            <span asp-validation-for="Train.Name" class="text-danger"></span>
+            <label asp-for="Schedule.Departure"></label>
+            <input asp-for="Schedule.Departure" class="form-control" />
+            <span asp-validation-for="Schedule.Departure" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Train.Capacity"></label>
-            <input asp-for="Train.Capacity" class="form-control" />
-            <span asp-validation-for="Train.Capacity" class="text-danger"></span>
+            <label asp-for="Schedule.Arrival"></label>
+            <input asp-for="Schedule.Arrival" class="form-control" />
+            <span asp-validation-for="Schedule.Arrival" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Train.StationId"></label>
-            <select asp-for="Train.StationId" asp-items="@Model.StationsList" class="form-control">
+            <label asp-for="Schedule.SourceStationId">Source</label>
+            <select asp-for="Schedule.SourceStationId" asp-items="@Model.StationsList" class="form-control">
                 <option disabled selected>--Select Station--</option>
             </select>
-            <span asp-validation-for="Train.StationId" class="text-danger"></span>
+            <span asp-validation-for="Schedule.SourceStationId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Schedule.DestinationStationId">Destination</label>
+            <select asp-for="Schedule.DestinationStationId" asp-items="@Model.StationsList" class="form-control">
+                <option disabled selected>--Select Station--</option>
+            </select>
+            <span asp-validation-for="Schedule.DestinationStationId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Schedule.TrainNo">Train</label>
+            <select asp-for="Schedule.TrainNo" asp-items="@Model.TrainsList" class="form-control">
+                <option disabled selected>--Select Station--</option>
+            </select>
+            <span asp-validation-for="Schedule.TrainNo" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
-        <a asp-controller="Train" asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <a asp-controller="Schedule" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </form>
