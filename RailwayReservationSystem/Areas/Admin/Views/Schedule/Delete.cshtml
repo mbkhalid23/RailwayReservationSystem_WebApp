@@ -1,36 +1,33 @@
-﻿@model Train
-@{
-    var station = Model.Station.Name + ", " + Model.Station.City; 
-}
+﻿@model Schedule
 
 <form method="post" class="container w-50 py-4">
     <div class="border rounded-4 p-3">
         <div class="row pb-2">
-            <h2 class="text-primary">Delete Train</h2>
+            <h2 class="text-primary">Delete Schedule</h2>
             <hr />
         </div>
-        <input hidden asp-for="TrainNo" />
+        <input asp-for="ScheduleId" hidden />
         <div class="mb-3">
-            <label asp-for="Name"></label>
-            <input disabled asp-for="Name" class="form-control" />
+            <label asp-for="Departure"></label>
+            <input disabled asp-for="Departure" class="form-control" />
         </div>
         <div class="mb-3">
-            <label asp-for="Capacity"></label>
-            <input disabled asp-for="Capacity" class="form-control" />
+            <label asp-for="Arrival"></label>
+            <input disabled asp-for="Arrival" class="form-control" />
         </div>
         <div class="mb-3">
-            <label>Station</label>
-            <input disabled type="text" value="@station" class="form-control" />
+            <label asp-for="Source.Name">Source</label>
+            <input disabled asp-for="Source.Name" class="form-control">
         </div>
         <div class="mb-3">
-            <label asp-for="SeatsBooked"></label>
-            <input disabled asp-for="SeatsBooked" class="form-control" />
+            <label asp-for="Destination.Name">Destination</label>
+            <input disabled asp-for="Destination.Name" class="form-control">
         </div>
         <div class="mb-3">
-            <label asp-for="SeatsAvailable"></label>
-            <input disabled asp-for="SeatsAvailable" class="form-control" />
+            <label asp-for="Train.Name">Train</label>
+            <input disabled asp-for="Train.Name" class="form-control">
         </div>
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-controller="Train" asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <button type="submit" class="btn btn-primary">Delete</button>
+        <a asp-controller="Schedule" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </form>

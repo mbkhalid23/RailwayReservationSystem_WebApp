@@ -3,9 +3,10 @@
 <form method="post" class="container w-50 py-4">
     <div class="border rounded-4 p-3">
         <div class="row pb-2">
-            <h2 class="text-primary">Add Schedule</h2>
+            <h2 class="text-primary">@(Model.Schedule.ScheduleId == 0 ? "Add Schedule" : "Update Schedule")</h2>
             <hr />
         </div>
+        <input asp-for="Schedule.ScheduleId" hidden />
         <div class="mb-3">
             <label asp-for="Schedule.Departure"></label>
             <input asp-for="Schedule.Departure" class="form-control" />
@@ -33,11 +34,11 @@
         <div class="mb-3">
             <label asp-for="Schedule.TrainNo">Train</label>
             <select asp-for="Schedule.TrainNo" asp-items="@Model.TrainsList" class="form-control">
-                <option disabled selected>--Select Station--</option>
+                <option selected value="">--Select Station--</option>
             </select>
             <span asp-validation-for="Schedule.TrainNo" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">@(Model.Schedule.ScheduleId == 0 ? "Create" : "Update")</button>
         <a asp-controller="Schedule" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </form>
