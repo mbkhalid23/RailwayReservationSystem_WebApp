@@ -12,17 +12,11 @@
             <a asp-controller="Schedule" asp-action="Upsert" class="btn btn-primary"><i class="far fa-plus-square"></i>&nbsp; Add New</a>
         </div>
     </div>
-    <table class="table table-bordered table-striped mt-4">
-        <thead class="thead-dark">
+    <table class="table table-sm table-bordered table-striped mt-4">
+        <thead class="thead-dark text-center">
             <tr>
-                <th>
+                <th colspan="2">
                     Departure
-                </th>
-                <th>
-                    Arrival
-                </th>
-                <th>
-                    Journey
                 </th>
                 <th>
                     From
@@ -39,8 +33,14 @@
                 <th>
                     Train
                 </th>
+                <th colspan="2">
+                    Arrival
+                </th>
                 <th>
-                    Edit/Delete
+                    Journey
+                </th>
+                <th>
+                    View/Edit/Delete
                 </th>
             </tr>
         </thead>
@@ -49,13 +49,10 @@
             {
                 <tr>
                     <td>
-                        @schedule.Departure.ToShortDateString() @schedule.Departure.ToShortTimeString()
+                        @schedule.Departure.ToString("dd MMM, yyyy")
                     </td>
                     <td>
-                        @schedule.Arrival.ToShortDateString() @schedule.Arrival.ToShortTimeString()
-                    </td>
-                    <td>
-                        @schedule.Journey.Hours:@schedule.Journey.Minutes hrs
+                        @schedule.Departure.ToShortTimeString()
                     </td>
                     <td>
                         @schedule.Source.City
@@ -80,9 +77,19 @@
                         <td></td><td></td><td></td>
                     }
                     <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Schedule" asp-action="Upsert" asp-route-id="@schedule.ScheduleId" class="btn btn-primary mx-2"><i class="fas fa-edit"></i></a>
-                            <a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.ScheduleId" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i></a>
+                        @schedule.Arrival.ToString("dd MMM, yyyy")
+                    </td>
+                    <td>
+                        @schedule.Arrival.ToShortTimeString()
+                    </td>
+                    <td>
+                        @schedule.Journey.ToString(@"hh\:mm") hrs
+                    </td>
+                    <td>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-area="User" asp-controller="Home" asp-action="Details" asp-route-id="@schedule.ScheduleId" class="btn btn-success"><i class="fas fa-eye"></i></a>
+                            <a asp-controller="Schedule" asp-action="Upsert" asp-route-id="@schedule.ScheduleId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.ScheduleId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </td>
                 </tr>

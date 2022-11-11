@@ -14,95 +14,99 @@
     <partial name="_SearchBarPartial" />
     <hr />
 
-    @if (Model.ScheduleList.ToList().Any())
+    @if (Model.ScheduleList != null)
     {
-        <table class="table table-bordered table-striped mt-4">
-            <thead class="thead-dark text-center">
-                <tr>
-                    <th colspan="2">
-                        Departure
-                    </th>
-                    <th>
-                        From
-                    </th>
-                    <th>
-                        Destination
-                    </th>
-                    <th>
-                        Seats Left
-                    </th>
-                    <th>
-                        Total Seats
-                    </th>
-                    <th>
-                        Train
-                    </th>
-                    <th colspan="2">
-                        Arrival
-                    </th>
-                    <th>
-                        Journey
-                    </th>
-                    <th>
-                        View
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var schedule in Model.ScheduleList)
-                {
+        @if (Model.ScheduleList.Any<Schedule>())
+        {
+            <table class="table table-bordered table-striped mt-4">
+                <thead class="thead-dark text-center">
                     <tr>
-                        <td>
-                        @schedule.Departure.ToString("dd MMM, yyyy")
-                        </td>
-                        <td>
-                            @schedule.Departure.ToShortTimeString()
-                        </td>
-                        <td>
-                            @schedule.Source.City
-                        </td>
-                        <td>
-                            @schedule.Destination.City
-                        </td>
-                        @if (schedule.Train is not null)
-                        {
-                            <td>
-                                @schedule.Train.SeatsAvailable
-                            </td>
-                            <td>
-                                @schedule.Train.Capacity
-                            </td>
-                            <td>
-                                @schedule.Train.Name
-                            </td>
-                        }
-                        else
-                        {
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        }
-                        <td>
-                            @schedule.Arrival.ToString("dd MMM, yyyy")
-                        </td>
-                        <td>
-                            @schedule.Arrival.ToShortTimeString()
-                        </td>
-                        <td>
-                            @schedule.Journey.ToString(@"hh\:mm") hrs
-                        </td>
-                        <td>
-                            <div class="w-100 btn-group" role="group">
-                                <a asp-controller="Schedule" asp-action="Upsert" asp-route-id="@schedule.ScheduleId" class="btn btn-success mx-2 px-2"><i class="fas fa-eye"></i>&nbsp; View</a>
-                            </div>
-                        </td>
+                        <th colspan="2">
+                            Departure
+                        </th>
+                        <th>
+                            From
+                        </th>
+                        <th>
+                            Destination
+                        </th>
+                        <th>
+                            Seats Left
+                        </th>
+                        <th>
+                            Total Seats
+                        </th>
+                        <th>
+                            Train
+                        </th>
+                        <th colspan="2">
+                            Arrival
+                        </th>
+                        <th>
+                            Journey
+                        </th>
+                        <th>
+                            View
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h3>No Routes Found</h3>
+                </thead>
+                <tbody>
+                    @foreach (var schedule in Model.ScheduleList)
+                    {
+                        <tr>
+                            <td>
+                                @schedule.Departure.ToString("dd MMM, yyyy")
+                            </td>
+                            <td>
+                                @schedule.Departure.ToShortTimeString()
+                            </td>
+                            <td>
+                                @schedule.Source.City
+                            </td>
+                            <td>
+                                @schedule.Destination.City
+                            </td>
+                            @if (schedule.Train is not null)
+                            {
+                                <td>
+                                    @schedule.Train.SeatsAvailable
+                                </td>
+                                <td>
+                                    @schedule.Train.Capacity
+                                </td>
+                                <td>
+                                    @schedule.Train.Name
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            }
+                            <td>
+                                @schedule.Arrival.ToString("dd MMM, yyyy")
+                            </td>
+                            <td>
+                                @schedule.Arrival.ToShortTimeString()
+                            </td>
+                            <td>
+                                @schedule.Journey.ToString(@"hh\:mm") hrs
+                            </td>
+                            <td>
+                                <div class="w-100 btn-group" role="group">
+                                    <a asp-controller="Home" asp-action="Details" asp-route-id="@schedule.ScheduleId" class="btn btn-success mx-2 px-2"><i class="fas fa-eye"></i>&nbsp; View</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>No Routes Found</h3>
+        }
+
     }
 </div>
