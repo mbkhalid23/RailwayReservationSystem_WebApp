@@ -1,0 +1,32 @@
+﻿@model RailwayReservationSystem.Models.ViewModels.ScheduleViewModel
+
+@{
+    ViewData["Title"] = "Search Schedule";
+}
+
+<form method="post" class="container w-100">
+    <div class="row py-4">
+        <div class="col-3">
+            <label asp-for="Schedule.SourceStationId">Source</label>
+            <select asp-for="Schedule.SourceStationId" asp-items="@Model.StationsList" class="form-control">
+                <option disabled selected>--Select Station--</option>
+            </select>
+            <span asp-validation-for="Schedule.SourceStationId" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            <label asp-for="Schedule.DestinationStationId">Destination</label>
+            <select asp-for="Schedule.DestinationStationId" asp-items="@Model.StationsList" class="form-control">
+                <option disabled selected>--Select Station--</option>
+            </select>
+            <span asp-validation-for="Schedule.DestinationStationId" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            <label asp-for="Schedule.Departure"></label>
+            <input asp-for="Schedule.Departure" class="form-control" />
+            <span asp-validation-for="Schedule.Departure" class="text-danger"></span>
+        </div>
+        <div class="col-3 pl-3">
+            <button type="submit" class="btn btn-lg btn-primary rounded-pill mt-4"><i class="fas fa-search"></i>&nbsp;Get Schedule</button>
+        </div>
+    </div>
+</form>
