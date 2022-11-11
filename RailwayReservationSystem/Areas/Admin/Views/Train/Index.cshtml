@@ -12,8 +12,8 @@
             <a asp-controller="Train" asp-action="Create" class="btn btn-primary"><i class="far fa-plus-square"></i>&nbsp; Create New</a>
         </div>
     </div>
-    <table class="table table-bordered table-striped mt-4">
-        <thead class="thead-dark">
+    <table class="table table-sm table-striped mt-4">
+        <thead class="bg-info">
             <tr>
                 <th>
                     Train
@@ -61,9 +61,9 @@
                         @obj.Station.City
                     </td>
                     <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Train" asp-action="Update" asp-route-id="@obj.TrainNo" class="btn btn-primary mx-2"><i class="fas fa-edit"></i></a>
-                            <a asp-controller="Train" asp-action="Delete" asp-route-id="@obj.TrainNo" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i></a>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller="Train" asp-action="Update" asp-route-id="@obj.TrainNo" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                            <a asp-controller="Train" asp-action="Delete" asp-route-id="@obj.TrainNo" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </td>
                 </tr>
