@@ -84,26 +84,14 @@ namespace RailwayReservationSystem.Areas.User.Controllers
         }
 
         //GET
-        public IActionResult Details()
+        public IActionResult Details(int? id)
         {
             ScheduleViewModel ScheduleView = new();
             {
-                ScheduleView.Schedule = new();
+                ScheduleView.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(s => s.ScheduleId == id, IncludeProperties:"Source,Destination,Train");
+                ScheduleView.Count = 1;
+            }
 
-                ScheduleView.StationsList = _unitOfWork.Station.GetAll().Select(
-                    s => new SelectListItem
-                    {
-                        Text = s.City,
-                        Value = s.StationId.ToString()
-                    }).OrderBy(x => x.Text);
-
-                ScheduleView.TrainsList = _unitOfWork.Train.GetAll().Select(
-                    t => new SelectListItem
-                    {
-                        Text = t.Name,
-                        Value = t.TrainNo.ToString()
-                    });
-            };
             return View(ScheduleView);
         }
 

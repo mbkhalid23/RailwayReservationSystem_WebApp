@@ -1,7 +1,110 @@
-﻿
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
-
+﻿@model RailwayReservationSystem.Models.ViewModels.ScheduleViewModel
+<form method="post" class="pt-5">
+    <input hidden asp-for="Schedule.ScheduleId" />
+    <div class="card container">
+        <div class="card-header bg-info row">
+            <div class="col-12 col-md-6">
+                <h1 class="text-light">@Model.Schedule.Source.City to  @Model.Schedule.Destination.City</h1>
+                <h5 class="text-gray-dark">@(Model.Schedule.TrainNo != null ? Model.Schedule.Train.Name.ToUpper():"---")</h5>
+            </div>
+            <div class="col-12 col-md-6 text-right pt-4">
+                <h5><span class="badge bg-success pt-2" style="height:30px;">On Schedule</span></h5>
+            </div>
+        </div>
+        <div class="card-body row container">
+            <div class="container rounded p-2">
+                <div class="row">
+                    <div class="col-4">
+                        <h5 class="text-muted">DEPARTURE : @Model.Schedule.Departure.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Departure.ToShortTimeString()</h5>
+                    </div>
+                    <div class="col-4">    
+                        <h5 class="text-muted text-right">ARRIVAL : @Model.Schedule.Arrival.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Arrival.ToShortTimeString()</h5>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="text-muted text-right">JOURNEY : @Model.Schedule.Journey.ToString(@"hh\:mm") hrs</h5>
+                    </div>
+                </div>
+                <div class="py-5">
+                    <div class="row text-center">
+                        <div class="col-3 border-bottom">
+                            <div><h5 class="text-muted">TRAIN</h5></div>
+                        </div>
+                        <div class="col-2 border-bottom">
+                            <div><h5 class="text-muted">TOTAL SEATS</h5></div>
+                        </div>
+                        <div class="col-2 border-bottom">
+                            <div><h5 class="text-muted">SEATS BOOKED</h5></div>
+                        </div>
+                        <div class="col-2 border-bottom">
+                            <div><h5 class="text-muted">SEATS AVAILABLE</h5></div>
+                        </div>
+                        <div class="col-3 border-bottom">
+                            <div><h5 class="text-muted">FARE</h5></div>
+                        </div>
+                    </div>
+                    <div class="row text-center text-navy font-weight-bold">
+                        @if (@Model.Schedule.Train != null)
+                        {
+                            <div class="col-3">
+                                <div>@Model.Schedule.Train.Name</div>
+                            </div>
+                            <div class="col-2">
+                                <div>@Model.Schedule.Train.Capacity</div>
+                            </div>
+                            <div class="col-2">
+                                <div>@Model.Schedule.Train.SeatsBooked</div>
+                            </div>
+                            <div class="col-2">
+                                <div>@Model.Schedule.Train.SeatsAvailable</div>
+                            </div>
+                            <div class="col-3">
+                                <div>@Model.Schedule.Train.Capacity.ToString("c")</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-3">
+                                <div>---</div>
+                            </div>
+                            <div class="col-2">
+                                <div>---</div>
+                            </div>
+                            <div class="col-2">
+                                <div>---</div>
+                            </div>
+                            <div class="col-2">
+                                <div>---</div>
+                            </div>
+                            <div class="col-3">
+                                <div>---</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row col-12">
+                    <div class="col-1 text-primary"><h4>Count</h4></div>
+                    <div class="col-1"><input asp-for="Count" class="form-control" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-2">
+                    <a class="btn btn-lg btn-secondary w-100" asp-action="Index">Back to Home</a>
+                </div>
+                @if (@Model.Schedule.Train != null)
+                {
+                    <div class="col-2">
+                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-primary w-100">Buy Ticket</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-2">
+                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-primary w-100">Buy Ticket</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</form>
