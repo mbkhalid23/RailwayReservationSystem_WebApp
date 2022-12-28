@@ -27,6 +27,14 @@
             <label asp-for="Train.Name">Train</label>
             <input disabled asp-for="Train.Name" class="form-control">
         </div>
+        <div class="mb-3">
+            <label asp-for="SeatsAvailable">Seats Left</label>
+            <input disabled asp-for="SeatsAvailable" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="SeatsBooked">Seats Booked</label>
+            <input disabled asp-for="SeatsBooked" class="form-control">
+        </div>
         <button type="submit" class="btn btn-primary">Delete</button>
         <a asp-controller="Schedule" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>

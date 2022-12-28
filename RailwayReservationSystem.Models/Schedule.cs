@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 
 namespace RailwayReservationSystem.Models
 {
@@ -21,6 +22,12 @@ namespace RailwayReservationSystem.Models
         public DateTime Arrival { get; set; } = DateTime.Today;
         
         public TimeSpan Journey { get; set; }
+
+        [DisplayName("Seats Booked")]
+        public int SeatsBooked { get; set; }
+
+        [DisplayName("Seats Available")]
+        public int SeatsAvailable { get; set; }
 
         //Navigation Entries
         [ForeignKey("Train")]

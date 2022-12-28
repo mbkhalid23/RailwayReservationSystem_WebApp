@@ -23,12 +23,6 @@ namespace RailwayReservationSystem.Models
         [Required]
         public int Capacity { get; set; }
 
-        [DisplayName("Seats Booked")]
-        public int SeatsBooked { get; set; }
-
-        [DisplayName("Seats Available")]
-        public int SeatsAvailable { get; set; }
-
         //Navigation Entries
         [ValidateNever]
         public ICollection<Schedule> Schedule { get; set; }

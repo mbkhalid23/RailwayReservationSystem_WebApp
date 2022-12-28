@@ -80,10 +80,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 TrainsView.Train.Station.TrainsStationed++;
                 TrainsView.Train.Station.AvailableSlots--;
 
-                //Initialize seats booked and setas available
-                TrainsView.Train.SeatsBooked = 0;
-                TrainsView.Train.SeatsAvailable = TrainsView.Train.Capacity;
-
                 //Add the train to database
                 _unitOfWork.Train.Add(TrainsView.Train);
                 _unitOfWork.Save();
@@ -138,14 +134,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(TrainsViewModel TrainsView)
         {
-            //Check if the user accidently set the capacity less than the seats booked. We will lose the booking data otherwise
-            if (TrainsView.Train.Capacity < TrainsView.Train.SeatsBooked)
-            {
-                TempData["error"] = "Capacity cannot be less than seats booked";
-
-                return View(TrainsView);
-            }
-
             if (ModelState.IsValid)
             {
                 //Check if the train is moved to another station
@@ -176,8 +164,14 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                     _unitOfWork.Station.Update(PreviousStation);
                 }
 
-                //Update Available Seats in the train
-                TrainsView.Train.SeatsAvailable = TrainsView.Train.Capacity - TrainsView.Train.SeatsBooked;
+                //Get a list of all the future schedules with the current Train
+                List<Schedule> schedules = _unitOfWork.Schedule.GetAll(x => x.TrainNo == TrainsView.Train.TrainNo && x.Departure > DateTime.Now).ToList();
+
+                //update avialable seats for each future schedule
+                foreach (var schedule in schedules)
+                {
+                    schedule.SeatsAvailable = TrainsView.Train.Capacity - schedule.SeatsBooked;
+                }
 
                 //Update the train in the database
                 _unitOfWork.Train.Update(TrainsView.Train);
@@ -230,14 +224,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
             if (obj == null)
             {
                 return NotFound();
-            }
-
-            //Check if there are any seats booked in the train. If so, cancel or reschedule all the bookings first
-            if (obj.SeatsBooked != 0)
-            {
-                TempData["error"] = "Cannot delete train: it has some seats booked";
-
-                return View(obj);
             }
 
             //Train leaves the station

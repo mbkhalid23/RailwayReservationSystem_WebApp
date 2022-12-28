@@ -41,6 +41,23 @@ namespace RailwayReservationSystem.DataAccess.Repository
             return query.ToList();
         }
 
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter, string? IncludeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+
+            query = query.Where(filter);
+
+            if (IncludeProperties != null)
+            {
+                foreach (var includeProp in IncludeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
+            return query.ToList();
+        }
+
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? IncludeProperties = null)
         {
             IQueryable<T> query = dbSet;
