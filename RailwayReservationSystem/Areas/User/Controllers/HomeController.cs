@@ -89,7 +89,7 @@ namespace RailwayReservationSystem.Areas.User.Controllers
             ScheduleViewModel ScheduleView = new();
             {
                 ScheduleView.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(s => s.ScheduleId == id, IncludeProperties:"Source,Destination,Train");
-                ScheduleView.Count = 1;
+                ScheduleView.Seats = 1;
             }
 
             return View(ScheduleView);

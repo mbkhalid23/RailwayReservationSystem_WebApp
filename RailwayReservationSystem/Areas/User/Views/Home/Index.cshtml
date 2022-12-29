@@ -21,7 +21,7 @@
             <table class="table table-striped mt-4">
                 <thead class="bg-info">
                     <tr>
-                        <th colspan="2">
+                        <th>
                             Departure
                         </th>
                         <th>
@@ -34,19 +34,10 @@
                             Seats Left
                         </th>
                         <th>
-                            Total Seats
+                            Status
                         </th>
                         <th>
-                            Train
-                        </th>
-                        <th colspan="2">
-                            Arrival
-                        </th>
-                        <th>
-                            Journey
-                        </th>
-                        <th>
-                            View
+                            Details
                         </th>
                     </tr>
                 </thead>
@@ -56,42 +47,20 @@
                         <tr>
                             <td>
                                 @schedule.Departure.ToString("dd MMM, yyyy")
-                            </td>
-                            <td>
+                                &nbsp;|&nbsp;
                                 @schedule.Departure.ToShortTimeString()
                             </td>
                             <td>
-                                @schedule.Source.City
+                                @schedule.Source.Name, @schedule.Source.City
                             </td>
                             <td>
-                                @schedule.Destination.City
-                            </td>
-                            @if (schedule.Train is not null)
-                            {
-                                <td>
-                                    @schedule.SeatsAvailable
-                                </td>
-                                <td>
-                                    @schedule.Train.Capacity
-                                </td>
-                                <td>
-                                    @schedule.Train.Name
-                                </td>
-                            }
-                            else
-                            {
-                                <td>---</td>
-                                <td>---</td>
-                                <td>---</td>
-                            }
-                            <td>
-                                @schedule.Arrival.ToString("dd MMM, yyyy")
+                                @schedule.Destination.Name, @schedule.Destination.City
                             </td>
                             <td>
-                                @schedule.Arrival.ToShortTimeString()
+                                @schedule.SeatsAvailable
                             </td>
                             <td>
-                                @schedule.Journey.ToString(@"hh\:mm") hrs
+                                @schedule.Status
                             </td>
                             <td>
                                 <div class="w-100 btn-group" role="group">
