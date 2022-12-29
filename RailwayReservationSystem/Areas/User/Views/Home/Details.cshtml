@@ -8,7 +8,22 @@
                 <h5 class="text-gray-dark">@(Model.Schedule.TrainNo != null ? Model.Schedule.Train.Name.ToUpper():"---")</h5>
             </div>
             <div class="col-12 col-md-6 text-right pt-4">
-                <h5><span class="badge bg-success pt-2" style="height:30px;">On Schedule</span></h5>
+                <h5>
+                    @{
+                        if(Model.Schedule.Status == Schedule.ScheduleStatus.OnSchedule)
+                        {
+                            <span class="badge bg-success pt-2" style="height:30px;">ON SCHEDULE</span>
+                        }
+                        else if (Model.Schedule.Status == Schedule.ScheduleStatus.Delayed)
+                        {
+                            <span class="badge bg-warning pt-2" style="height:30px;">DELAYED</span>
+                        }
+                        else if (Model.Schedule.Status == Schedule.ScheduleStatus.Cancelled)
+                        {
+                            <span class="badge bg-danger pt-2" style="height:30px;">CANCELLED</span>
+                        }
+                    }
+                </h5>
             </div>
         </div>
         <div class="card-body row container">

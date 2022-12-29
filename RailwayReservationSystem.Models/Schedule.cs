@@ -28,6 +28,16 @@ namespace RailwayReservationSystem.Models
 
         [DisplayName("Seats Available")]
         public int SeatsAvailable { get; set; }
+        
+        public enum ScheduleStatus 
+        { 
+            [Display (Name = "On Schedule")] OnSchedule, 
+            Delayed, 
+            Cancelled
+        }
+
+        [Required]
+        public ScheduleStatus Status { get; set; }
 
         //Navigation Entries
         [ForeignKey("Train")]

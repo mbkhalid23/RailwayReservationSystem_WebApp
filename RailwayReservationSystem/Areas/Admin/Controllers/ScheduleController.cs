@@ -109,7 +109,7 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 //Calculates the number of journey hours
                 ScheduleView.Schedule.Journey = ScheduleView.Schedule.Arrival - ScheduleView.Schedule.Departure;
 
-                //Add the Schedule entry to database
+                //Add New Schedule entry to database
                 if (ScheduleView.Schedule.ScheduleId == 0)
                 {
                     //Initialize seats booked and seats available

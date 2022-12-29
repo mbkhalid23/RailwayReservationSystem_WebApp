@@ -165,10 +165,10 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 }
 
                 //Get a list of all the future schedules with the current Train
-                List<Schedule> schedules = _unitOfWork.Schedule.GetAll(x => x.TrainNo == TrainsView.Train.TrainNo && x.Departure > DateTime.Now).ToList();
+                TrainsView.Train.Schedule = _unitOfWork.Schedule.GetAll(s => s.TrainNo == TrainsView.Train.TrainNo && s.Departure > DateTime.Now).ToList();
 
                 //update avialable seats for each future schedule
-                foreach (var schedule in schedules)
+                foreach (var schedule in TrainsView.Train.Schedule)
                 {
                     schedule.SeatsAvailable = TrainsView.Train.Capacity - schedule.SeatsBooked;
                 }
