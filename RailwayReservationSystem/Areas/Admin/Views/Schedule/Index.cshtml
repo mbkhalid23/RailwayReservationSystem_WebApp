@@ -50,9 +50,18 @@
                     <td>
                         @schedule.Destination.Name, @schedule.Destination.City
                     </td>
-                    <td>
-                        @schedule.SeatsAvailable
-                    </td>
+                    @if (schedule.TrainNo != null)
+                    {
+                        <td>
+                            @schedule.SeatsAvailable
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            ---
+                        </td>
+                    }
                     <td>
                         @schedule.Status
                     </td>

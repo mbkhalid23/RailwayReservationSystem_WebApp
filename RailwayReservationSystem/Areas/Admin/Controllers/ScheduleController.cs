@@ -116,6 +116,11 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                         TempData["error"] = "This train is not available at the Source Station";
                         return View(ScheduleView);
                     }
+
+                    //Initialize seats booked and seats available
+                    ScheduleView.Schedule.SeatsBooked = 0;
+                    //Update the seats available corresponding to the updatedTrain
+                    ScheduleView.Schedule.SeatsAvailable = ScheduleView.Schedule.Train.Capacity - ScheduleView.Schedule.SeatsBooked;
                 }
 
                 //Calculates the number of journey hours
@@ -124,10 +129,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 //Add New Schedule entry to database
                 if (ScheduleView.Schedule.ScheduleId == 0)
                 {
-                    //Initialize seats booked and seats available
-                    ScheduleView.Schedule.SeatsBooked = 0;
-                    ScheduleView.Schedule.SeatsAvailable = ScheduleView.Schedule.Train.Capacity;
-
                     _unitOfWork.Schedule.Add(ScheduleView.Schedule);
                     TempData["success"] = "Schedule entry added successfully";
                 }
@@ -135,9 +136,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 //Update an existing Schedule entry to database
                 else
                 {
-                    //Update the seats available corresponding to the updatedTrain
-                    ScheduleView.Schedule.SeatsAvailable = ScheduleView.Schedule.Train.Capacity - ScheduleView.Schedule.SeatsBooked;
-
                     _unitOfWork.Schedule.Update(ScheduleView.Schedule);
                     TempData["success"] = "Schedule entry updated successfully";
                 }
