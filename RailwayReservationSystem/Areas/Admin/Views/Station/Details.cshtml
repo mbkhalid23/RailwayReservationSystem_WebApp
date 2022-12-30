@@ -1,0 +1,96 @@
+﻿@model Station
+<div class="py-5">
+    <div class="card container">
+        <div class="card-header py-4 bg-info row align-items-center">
+            <div class="col-12 col-md-6">
+                <h1 class="text-light">@Model.Name.ToUpper(), @Model.City.ToUpper()</h1>
+            </div>
+        </div>
+        <div class="card-body row container">
+            <div class="container rounded p-2">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <h5 class="text-muted">STATION: @Model.Name.ToUpper()</h5>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="text-muted text-right">CITY: @Model.City.ToUpper()</h5>
+                    </div>
+                </div>
+                <div class="py-5">
+                    <div class="row text-center">
+                        <div class="col-4 border-bottom">
+                            <div><h5 class="text-muted">CAPACITY</h5></div>
+                        </div>
+                        <div class="col-4 border-bottom">
+                            <div><h5 class="text-muted">TRAINS STATIONED</h5></div>
+                        </div>
+                        <div class="col-4 border-bottom">
+                            <div><h5 class="text-muted">SLOTS AVAILABLE</h5></div>
+                        </div>
+                    </div>
+                    <div class="row text-center text-navy font-weight-bold">
+                        <div class="col-4">
+                            <div>@Model.Capacity</div>
+                        </div>
+                        <div class="col-4">
+                            <div>@Model.Trains.Count()</div>
+                        </div>
+                        <div class="col-4">
+                            <div>@Model.AvailableSlots</div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped mt-4">
+                    <thead class="bg-info">
+                        <tr>
+                            <th>
+                                Train
+                            </th>
+                            <th>
+                                Capacity
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th class="col-2">
+                                Edit/Delete
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var train in Model.Trains)
+                        {
+                            <tr>
+                                <td>
+                                    @train.Name
+                                </td>
+                                <td>
+                                    @train.Capacity
+                                </td>
+                                <td>
+                                    In Service
+                                </td>
+                                <td>
+                                    <div class="w-100 btn-group" role="group">
+                                        <a asp-controller="Train" asp-action="Update" asp-route-id="@train.TrainNo" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a asp-controller="Train" asp-action="Delete" asp-route-id="@train.TrainNo" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-2">
+                    <a asp-controller="Station" asp-action="Index" class="btn btn-lg btn-secondary w-100">Back to List</a>
+                </div>
+                <div class="col-2">
+                    <a asp-controller="Station" asp-action="Update" asp-route-id="@Model.StationId" class="btn btn-lg btn-primary w-100">Update Station</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

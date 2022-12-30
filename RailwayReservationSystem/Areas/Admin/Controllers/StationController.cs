@@ -26,6 +26,14 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         }
 
         //GET
+        public IActionResult Details(int? id)
+        {
+            Station station = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == id, "Trains");
+
+            return View(station);
+        }
+
+        //GET
         public IActionResult Create()
         {
             return View();

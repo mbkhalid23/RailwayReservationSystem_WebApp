@@ -12,7 +12,7 @@
             <a asp-controller="Station" asp-action="Create" class="btn btn-primary"><i class="far fa-plus-square"></i>&nbsp; Create New</a>
         </div>
     </div>
-    <table class="table table-sm table-striped mt-4">
+    <table class="table table-striped mt-4">
         <thead class="bg-info">
             <tr>
                 <th>
@@ -31,7 +31,7 @@
                     Available Slots
                 </th>
                 <th>
-                    Edit/Delete
+                    View/Edit/Delete
                 </th>
             </tr>
         </thead>
@@ -56,8 +56,9 @@
                     </td>
                     <td>
                         <div class="w-100 btn-group" role="group">
-                            <a asp-controller="Station" asp-action="Update" asp-route-id="@obj.StationId" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                            <a asp-controller="Station" asp-action="Delete" asp-route-id="@obj.StationId" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+                            <a asp-controller="Station" asp-action="Details" asp-route-id="@obj.StationId" class="btn btn-success"><i class="fas fa-eye"></i></a>
+                            <a asp-controller="Station" asp-action="Update" asp-route-id="@obj.StationId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a asp-controller="Station" asp-action="Delete" asp-route-id="@obj.StationId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </td>
                 </tr>
