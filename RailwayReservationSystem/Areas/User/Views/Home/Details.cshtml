@@ -4,7 +4,7 @@
     <div class="card container">
         <div class="card-header bg-info row align-items-center">
             <div class="col-12 col-md-6">
-                <h1 class="text-light">@Model.Schedule.Source.City to  @Model.Schedule.Destination.City</h1>
+                <h1 class="text-light">@Model.Schedule.Source.City.ToUpper()&ensp;TO&ensp;@Model.Schedule.Destination.City.ToUpper()</h1>
                 <h5 class="text-gray-dark">@(Model.Schedule.TrainNo != null ? Model.Schedule.Train.Name.ToUpper():"---")</h5>
             </div>
             <div class="col-12 col-md-6 text-right">
@@ -30,18 +30,18 @@
             <div class="container rounded p-2">
                 <div class="row mb-3">
                     <div class="col-6">
-                        <h5 class="text-muted">FROM: @Model.Schedule.Source.Name.ToUpper(), @Model.Schedule.Source.City.ToUpper()</h5>
+                        <h5 class="text-muted">FROM : @Model.Schedule.Source.Name.ToUpper(), @Model.Schedule.Source.City.ToUpper()</h5>
                     </div>
                     <div class="col-6">
-                        <h5 class="text-muted text-right">TO: @Model.Schedule.Destination.Name.ToUpper(), @Model.Schedule.Destination.City.ToUpper()</h5>
+                        <h5 class="text-muted text-right">TO : @Model.Schedule.Destination.Name.ToUpper(), @Model.Schedule.Destination.City.ToUpper()</h5>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4">
-                        <h5 class="text-muted">DEPARTURE : @Model.Schedule.Departure.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Departure.ToShortTimeString()</h5>
+                        <h5 class="text-muted">DEP : @Model.Schedule.Departure.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Departure.ToShortTimeString()</h5>
                     </div>
                     <div class="col-4">    
-                        <h5 class="text-muted text-right">ARRIVAL : @Model.Schedule.Arrival.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Arrival.ToShortTimeString()</h5>
+                        <h5 class="text-muted text-center">ARR : @Model.Schedule.Arrival.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Arrival.ToShortTimeString()</h5>
                     </div>
                     <div class="col-4">
                         <h5 class="text-muted text-right">JOURNEY : @Model.Schedule.Journey.ToString(@"hh\:mm") hrs</h5>
@@ -69,7 +69,7 @@
                         @if (@Model.Schedule.Train != null)
                         {
                             <div class="col-3">
-                                <div>@Model.Schedule.Train.Name</div>
+                                <div>@Model.Schedule.Train.Name.ToUpper()</div>
                             </div>
                             <div class="col-2">
                                 <div>@Model.Schedule.Train.Capacity</div>
@@ -118,13 +118,13 @@
                 @if (@Model.Schedule.Train != null && Model.Schedule.Departure > DateTime.Now && Model.Schedule.Status != Schedule.ScheduleStatus.Cancelled)
                 {
                     <div class="col-2">
-                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-primary w-100">Buy Ticket</button>
+                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Buy Ticket</button>
                     </div>
                 }
                 else
                 {
                     <div class="col-2">
-                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-primary w-100">Buy Ticket</button>
+                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Buy Ticket</button>
                     </div>
                 }
             </div>

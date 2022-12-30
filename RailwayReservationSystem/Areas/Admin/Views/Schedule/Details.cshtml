@@ -4,51 +4,44 @@
     <div class="card container">
         <div class="card-header bg-info row align-items-center">
             <div class="col-12 col-md-6">
-                <h1 class="text-light">@Model.Schedule.Source.City to  @Model.Schedule.Destination.City</h1>
+                <h1 class="text-light">@Model.Schedule.Source.City.ToUpper()&ensp;TO&ensp;@Model.Schedule.Destination.City.ToUpper()</h1>
                 <h5 class="text-gray-dark">@(Model.Schedule.TrainNo != null ? Model.Schedule.Train.Name.ToUpper():"---")</h5>
             </div>
             <div class="col-12 col-md-6 text-right">
-                <div class="row align-items-center">
-                    <div class="col-10">
-                        <h5 class="mb-0">
-                            @{
-                                if(Model.Schedule.Status == Schedule.ScheduleStatus.OnSchedule)
-                                {
-                                    <span class="badge bg-success pt-2" style="height:30px;">ON SCHEDULE</span>
-                                }
-                                else if (Model.Schedule.Status == Schedule.ScheduleStatus.Delayed)
-                                {
-                                    <span class="badge bg-warning pt-2" style="height:30px;">DELAYED</span>
-                                }
-                                else if (Model.Schedule.Status == Schedule.ScheduleStatus.Cancelled)
-                                {
-                                    <span class="badge bg-danger pt-2" style="height:30px;">CANCELLED</span>
-                                }
-                            }
-                        </h5>
-                    </div>
-                    <div class="col-2">
-                        <a asp-controller="Schedule" asp-action="Upsert" class="btn btn-lg btn-dark rounded-circle" asp-route-id="@Model.Schedule.ScheduleId"><i class="fas fa-pencil-alt"></i></a>
-                    </div>
-                </div>
+                <h5 class="mb-0">
+                    @{
+                        if(Model.Schedule.Status == Schedule.ScheduleStatus.OnSchedule)
+                        {
+                            <span class="badge bg-success pt-2" style="height:30px;">ON SCHEDULE</span>
+                        }
+                        else if (Model.Schedule.Status == Schedule.ScheduleStatus.Delayed)
+                        {
+                            <span class="badge bg-warning pt-2" style="height:30px;">DELAYED</span>
+                        }
+                        else if (Model.Schedule.Status == Schedule.ScheduleStatus.Cancelled)
+                        {
+                            <span class="badge bg-danger pt-2" style="height:30px;">CANCELLED</span>
+                        }
+                    }
+                </h5>
             </div>
         </div>
         <div class="card-body row container">
             <div class="container rounded p-2">
                 <div class="row mb-3">
                     <div class="col-6">
-                        <h5 class="text-muted">FROM: @Model.Schedule.Source.Name.ToUpper(), @Model.Schedule.Source.City.ToUpper()</h5>
+                        <h5 class="text-muted">FROM : @Model.Schedule.Source.Name.ToUpper(), @Model.Schedule.Source.City.ToUpper()</h5>
                     </div>
                     <div class="col-6">
-                        <h5 class="text-muted text-right">TO: @Model.Schedule.Destination.Name.ToUpper(), @Model.Schedule.Destination.City.ToUpper()</h5>
+                        <h5 class="text-muted text-right">TO : @Model.Schedule.Destination.Name.ToUpper(), @Model.Schedule.Destination.City.ToUpper()</h5>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4">
-                        <h5 class="text-muted">DEPARTURE : @Model.Schedule.Departure.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Departure.ToShortTimeString()</h5>
+                        <h5 class="text-muted">DEP : @Model.Schedule.Departure.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Departure.ToShortTimeString()</h5>
                     </div>
                     <div class="col-4">    
-                        <h5 class="text-muted text-right">ARRIVAL : @Model.Schedule.Arrival.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Arrival.ToShortTimeString()</h5>
+                        <h5 class="text-muted text-center">ARR : @Model.Schedule.Arrival.Date.ToString("dd MMM, yyyy") | @Model.Schedule.Arrival.ToShortTimeString()</h5>
                     </div>
                     <div class="col-4">
                         <h5 class="text-muted text-right">JOURNEY : @Model.Schedule.Journey.ToString(@"hh\:mm") hrs</h5>
@@ -76,7 +69,7 @@
                         @if (@Model.Schedule.Train != null)
                         {
                             <div class="col-3">
-                                <div>@Model.Schedule.Train.Name</div>
+                                <div>@Model.Schedule.Train.Name.ToUpper()</div>
                             </div>
                             <div class="col-2">
                                 <div>@Model.Schedule.Train.Capacity</div>
@@ -122,16 +115,19 @@
                 <div class="col-2">
                     <a class="btn btn-lg btn-secondary w-100" asp-action="Index">Back to List</a>
                 </div>
+                <div class="col-2">
+                    <a class="btn btn-lg btn-primary w-100" asp-action="Upsert" asp-route-id="@Model.Schedule.ScheduleId">Edit Schedule</a>
+                </div>
                 @if (Model.Schedule.Train != null && Model.Schedule.Departure > DateTime.Now && Model.Schedule.Status != Schedule.ScheduleStatus.Cancelled)
                 {
                     <div class="col-2">
-                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-primary w-100">Buy Ticket</button>
+                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Buy Ticket</button>
                     </div>
                 }
                 else
                 {
                     <div class="col-2">
-                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-primary w-100">Buy Ticket</button>
+                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Buy Ticket</button>
                     </div>
                 }
             </div>
