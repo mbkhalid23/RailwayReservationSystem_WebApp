@@ -1,0 +1,133 @@
+﻿@model Train
+<div class="py-5">
+    <div class="card container">
+        <div class="card-header py-4 bg-info row align-items-center">
+            <div class="col-12 col-md-6">
+                <h1 class="text-light">@Model.Name.ToUpper()</h1>
+            </div>
+            <div class="col-12 col-md-6 text-right">
+                <h5 class="mb-0">
+                    @{
+                        if (Model.Status == Train.TrainStatus.InService)
+                        {
+                            <span class="badge bg-success pt-2" style="height:30px;">IN SERVICE</span>
+                        }
+                        else if (Model.Status == Train.TrainStatus.InMaintenance)
+                        {
+                            <span class="badge bg-warning pt-2" style="height:30px;">IN MAINTENANCE</span>
+                        }
+                        else if (Model.Status == Train.TrainStatus.Retired)
+                        {
+                            <span class="badge bg-danger pt-2" style="height:30px;">RETIRED</span>
+                        }
+                    }
+                </h5>
+            </div>
+        </div>
+        <div class="card-body row container">
+            <div class="container rounded p-2">
+                <div class="py-5">
+                    <div class="row text-center">
+                        <div class="col-4 border-bottom">
+                            <div><h5 class="text-muted">TRAIN</h5></div>
+                        </div>
+                        <div class="col-4 border-bottom">
+                            <div><h5 class="text-muted">SEATING CAPACITY</h5></div>
+                        </div>
+                        <div class="col-4 border-bottom">
+                            <div><h5 class="text-muted">STATIONED AT</h5></div>
+                        </div>
+                    </div>
+                    <div class="row text-center text-navy font-weight-bold">
+                        <div class="col-4">
+                            <div>@Model.Name.ToUpper()</div>
+                        </div>
+                        <div class="col-4">
+                            <div>@Model.Capacity</div>
+                        </div>
+                        <div class="col-4">
+                            <div>@(Model.Station.Name.ToUpper() + ", " + @Model.Station.City.ToUpper())</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h2 class="text-primary">SCHEDULE</h2>
+                </div>
+                <table class="table table-striped mt-4">
+                    <thead class="bg-info">
+                        <tr>
+                            <th>
+                                Departure
+                            </th>
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                Destination
+                            </th>
+                            <th>
+                                Seats Left
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                View/Edit/Delete
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var schedule in Model.Schedule)
+                        {
+                            <tr>
+                                <td>
+                                    @schedule.Departure.ToString("dd MMM, yyyy")
+                                    &nbsp;|&nbsp;
+                                    @schedule.Departure.ToShortTimeString()
+                                </td>
+                                <td>
+                                    @schedule.Source.Name, @schedule.Source.City
+                                </td>
+                                <td>
+                                    @schedule.Destination.Name, @schedule.Destination.City
+                                </td>
+                                @if (schedule.TrainNo != null)
+                                {
+                                    <td>
+                                        @schedule.SeatsAvailable
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        ---
+                                    </td>
+                                }
+                                <td>
+                                    @schedule.Status
+                                </td>
+                                <td>
+                                    <div class="w-100 btn-group" role="group">
+                                        <a asp-controller="Schedule" asp-action="Details" asp-route-id="@schedule.ScheduleId" class="btn btn-success"><i class="fas fa-eye"></i></a>
+                                        <a asp-controller="Schedule" asp-action="Upsert" asp-route-id="@schedule.ScheduleId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.ScheduleId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-2">
+                    <a asp-controller="Train" asp-action="Index" class="btn btn-lg btn-secondary w-100">Back to List</a>
+                </div>
+                <div class="col-2">
+                    <a asp-controller="Train" asp-action="Update" asp-route-id="@Model.TrainNo" class="btn btn-lg btn-primary w-100">Edit Train</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

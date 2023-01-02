@@ -22,6 +22,10 @@
             <label>Station</label>
             <input disabled type="text" value="@station" class="form-control" />
         </div>
+        <div class="mb-3">
+            <label asp-for="Status">Status</label>
+            <input disabled asp-for="Status" class="form-control" />
+        </div>
         <button type="submit" class="btn btn-danger">Delete</button>
         <a asp-controller="Train" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>

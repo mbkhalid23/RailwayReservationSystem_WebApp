@@ -25,6 +25,12 @@
             </select>
             <span asp-validation-for="Train.StationId" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="Train.Status">Status</label>
+            <select asp-for="Train.Status" asp-items="Html.GetEnumSelectList<Train.TrainStatus>()" class="form-control">
+            </select>
+            <span asp-validation-for="Train.Status" class="text-danger"></span>
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a asp-controller="Train" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>

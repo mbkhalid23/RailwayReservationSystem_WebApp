@@ -22,6 +22,15 @@ namespace RailwayReservationSystem.Models
 
         [Required]
         public int Capacity { get; set; }
+        public enum TrainStatus
+        {
+            [Display(Name = "In Service")] InService,
+            [Display(Name = "In Maintenance")] InMaintenance,
+            Retired
+        }
+
+        [Required]
+        public TrainStatus Status { get; set; }
 
         //Navigation Entries
         [ValidateNever]

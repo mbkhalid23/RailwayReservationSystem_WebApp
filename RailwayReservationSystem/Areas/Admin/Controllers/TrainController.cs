@@ -23,8 +23,16 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         public IActionResult Index()
         {
             //Get all trains
-            IEnumerable<Train> trains = _unitOfWork.Train.GetAll("Station");
+            IEnumerable<Train> trains = _unitOfWork.Train.GetAll();
             return View(trains);
+        }
+
+        //GET
+        public IActionResult Details(int? id)
+        {
+            Train train = _unitOfWork.Train.GetFirstOrDefault(x => x.TrainNo == id, "Station,Schedule");
+            train.Schedule = _unitOfWork.Schedule.GetAll(x => x.TrainNo == train.TrainNo, "Source,Destination").ToList();
+            return View(train);
         }
 
         //GET
