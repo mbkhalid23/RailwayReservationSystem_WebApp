@@ -2,20 +2,12 @@
 <div class="py-5">
     <div class="card container">
         <div class="card-header py-4 bg-info row align-items-center">
-            <div class="col-12 col-md-6">
+            <div class="col-12">
                 <h1 class="text-light">@Model.Name.ToUpper(), @Model.City.ToUpper()</h1>
             </div>
         </div>
         <div class="card-body row container">
             <div class="container rounded p-2">
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <h5 class="text-muted">STATION: @Model.Name.ToUpper()</h5>
-                    </div>
-                    <div class="col-6">
-                        <h5 class="text-muted text-right">CITY: @Model.City.ToUpper()</h5>
-                    </div>
-                </div>
                 <div class="py-5">
                     <div class="row text-center">
                         <div class="col-4 border-bottom">
@@ -40,6 +32,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-6">
+                    <h2 class="text-primary">TRAINS LIST</h2>
+                </div>
                 <table class="table table-striped mt-4">
                     <thead class="bg-info">
                         <tr>
@@ -53,27 +48,28 @@
                                 Status
                             </th>
                             <th class="col-2">
-                                Edit/Delete
+                                View/Edit/Delete
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var train in Model.Trains)
+                        @foreach (var obj in Model.Trains)
                         {
                             <tr>
                                 <td>
-                                    @train.Name
+                                    @obj.Name
                                 </td>
                                 <td>
-                                    @train.Capacity
+                                    @obj.Capacity
                                 </td>
                                 <td>
-                                    In Service
+                                    @obj.Status
                                 </td>
                                 <td>
                                     <div class="w-100 btn-group" role="group">
-                                        <a asp-controller="Train" asp-action="Update" asp-route-id="@train.TrainNo" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                        <a asp-controller="Train" asp-action="Delete" asp-route-id="@train.TrainNo" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                        <a asp-controller="Train" asp-action="Details" asp-route-id="@obj.TrainNo" class="btn btn-success"><i class="fas fa-eye"></i></a>
+                                        <a asp-controller="Train" asp-action="Update" asp-route-id="@obj.TrainNo" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a asp-controller="Train" asp-action="Delete" asp-route-id="@obj.TrainNo" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                     </div>
                                 </td>
                             </tr>
