@@ -1,5 +1,6 @@
 ﻿using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
+using RailwayReservationSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,14 @@ namespace RailwayReservationSystem.DataAccess.Repository
             Train = new TrainRepository(_db);
             Station = new StationRepository(_db);
             Schedule = new ScheduleRepository(_db);
+            BookingCart = new BookingCartRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
         }
         public ITrainRepository Train { get; private set; }
         public IStationRepository Station { get; private set; }
         public IScheduleRepository Schedule { get; set; }
+        public IBookingCartRepository BookingCart { get; set; }
+        public IApplicationUserRepository ApplicationUser { get; set; }
 
         public void Save()
         {

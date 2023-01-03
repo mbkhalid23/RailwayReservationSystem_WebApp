@@ -11,6 +11,8 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
         ITrainRepository Train { get; }
         IStationRepository Station { get; }
         IScheduleRepository Schedule { get; }
+        IBookingCartRepository BookingCart { get; }
+        IApplicationUserRepository ApplicationUser { get; }
         void Save();
     }
 }
