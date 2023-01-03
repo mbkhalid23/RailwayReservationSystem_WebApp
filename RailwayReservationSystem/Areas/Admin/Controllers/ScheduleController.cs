@@ -111,12 +111,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
                 {
                     ScheduleView.Schedule.Train = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == ScheduleView.Schedule.TrainNo);
 
-                    if (ScheduleView.Schedule.Train.StationId != ScheduleView.Schedule.SourceStationId)
-                    {
-                        TempData["error"] = "This train is not available at the Source Station";
-                        return View(ScheduleView);
-                    }
-
                     //Initialize seats booked and seats available
                     ScheduleView.Schedule.SeatsBooked = 0;
                     //Update the seats available corresponding to the updatedTrain
