@@ -19,7 +19,7 @@ namespace RailwayReservationSystem.Models
         [Required]
         [MaxLength(15)]
         [StringLength(15, MinimumLength = 13, ErrorMessage = "CNIC must be 13 digits")]
-        [RegularExpression(@"^[0-9]{5}-[0-9]{7}-[0-9]$", ErrorMessage = "CNIC must follow the XXXXX-XXXXXXX-X format!")]
+        [RegularExpression(@"^[0-9]{5}-[0-9]{7}-[0-9]$", ErrorMessage = "CNIC must follow the 12345-1234567-1 format!")]
         public string CNIC { get; set; }
 
         [MaxLength(6)]

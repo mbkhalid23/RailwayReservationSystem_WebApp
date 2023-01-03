@@ -21,6 +21,6 @@ namespace RailwayReservationSystem.DataAccess.Data
         public DbSet<Station> Stations { get; set; }
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
+        public DbSet<BookingCart> BookingCarts { get; set; }
     }
 }
