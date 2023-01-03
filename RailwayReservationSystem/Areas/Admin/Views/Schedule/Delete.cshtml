@@ -39,7 +39,11 @@
             <label asp-for="Status">Status</label>
             <input disabled asp-for="Status" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Delete</button>
+        <div class="mb-3">
+            <label asp-for="Fare"></label>
+            <input disabled asp-for="Fare" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-danger">Delete</button>
         <a asp-controller="Schedule" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </form>

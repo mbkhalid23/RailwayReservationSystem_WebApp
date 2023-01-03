@@ -44,6 +44,11 @@
             </select>
             <span asp-validation-for="Schedule.Status" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="Schedule.Fare"></label>
+            <input asp-for="Schedule.Fare" class="form-control" />
+            <span asp-validation-for="Schedule.Fare" class="text-danger"></span>
+        </div>
         <button type="submit" class="btn btn-primary">@(Model.Schedule.ScheduleId == 0 ? "Create" : "Update")</button>
         <a asp-controller="Schedule" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>

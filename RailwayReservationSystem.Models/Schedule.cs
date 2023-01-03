@@ -38,6 +38,9 @@ namespace RailwayReservationSystem.Models
 
         [Required]
         public ScheduleStatus Status { get; set; }
+        [Required]
+        [Range(500,50000, ErrorMessage = "Fare must be between RS500 and RS50,000")]
+        public int Fare { get; set; }
 
         //Navigation Entries
         [ForeignKey("Train")]
@@ -56,8 +59,5 @@ namespace RailwayReservationSystem.Models
         public int DestinationStationId { get; set; }
         [ValidateNever]
         public Station Destination { get; set; }
-
-        [ValidateNever]
-        public ICollection<Reservation> Reservations { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model RailwayReservationSystem.Models.ViewModels.ScheduleViewModel
+﻿@using System.Globalization;
+@model RailwayReservationSystem.Models.ViewModels.ScheduleViewModel
 <form method="post" class="pt-5">
     <input hidden asp-for="Schedule.ScheduleId" />
     <div class="card container">
@@ -80,9 +81,6 @@
                             <div class="col-2">
                                 <div>@Model.Schedule.SeatsAvailable</div>
                             </div>
-                            <div class="col-3">
-                                <div>@Model.Schedule.Train.Capacity.ToString("c")</div>
-                            </div>
                         }
                         else
                         {
@@ -98,10 +96,10 @@
                             <div class="col-2">
                                 <div>---</div>
                             </div>
-                            <div class="col-3">
-                                <div>---</div>
-                            </div>
                         }
+                        <div class="col-3">
+                            <div>@Model.Schedule.Fare.ToString("C", CultureInfo.CreateSpecificCulture("ur-PK"))</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row col-12">
