@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RailwayReservationSystem.DataAccess.Repository;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.ViewModels;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace RailwayReservationSystem.Areas.User.Controllers
 {
@@ -84,15 +86,32 @@ namespace RailwayReservationSystem.Areas.User.Controllers
         }
 
         //GET
-        public IActionResult Details(int? id)
+        public IActionResult Details(int scheduleId)
         {
-            ScheduleViewModel ScheduleView = new();
+            BookingCart cartObj = new();
             {
-                ScheduleView.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(s => s.ScheduleId == id, IncludeProperties:"Source,Destination,Train");
-                ScheduleView.Seats = 1;
+                cartObj.ScheduleId = scheduleId;
+                cartObj.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(s => s.ScheduleId == scheduleId, IncludeProperties:"Source,Destination,Train");
+                cartObj.Seats = 1;
             }
 
-            return View(ScheduleView);
+            return View(cartObj);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult Details(BookingCart bookingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            bookingCart.ApplicationUserId = claim.Value;
+
+            _unitOfWork.BookingCart.Add(bookingCart);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

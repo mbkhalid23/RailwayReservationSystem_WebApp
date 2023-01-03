@@ -15,6 +15,7 @@ namespace RailwayReservationSystem.Models
         [ForeignKey("ScheduleId")]
         [ValidateNever]
         public Schedule Schedule { get; set; }
+        public int Seats { get; set; }
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]

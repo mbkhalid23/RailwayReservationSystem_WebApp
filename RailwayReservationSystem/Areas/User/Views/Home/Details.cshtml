@@ -1,7 +1,7 @@
 ﻿@using System.Globalization;
-@model RailwayReservationSystem.Models.ViewModels.ScheduleViewModel
+@model BookingCart
 <form method="post" class="pt-5">
-    <input hidden asp-for="Schedule.ScheduleId" />
+    <input hidden asp-for="ScheduleId" />
     <div class="card container">
         <div class="card-header bg-info row align-items-center">
             <div class="col-12 col-md-6">
@@ -116,13 +116,13 @@
                 @if (@Model.Schedule.Train != null && Model.Schedule.Departure > DateTime.Now && Model.Schedule.Status != Schedule.ScheduleStatus.Cancelled)
                 {
                     <div class="col-2">
-                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Buy Ticket</button>
+                        <button type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Add to Cart</button>
                     </div>
                 }
                 else
                 {
                     <div class="col-2">
-                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Buy Ticket</button>
+                        <button disabled type="submit" value="Add to Cart" class="btn btn-lg btn-info w-100">Add to Cart</button>
                     </div>
                 }
             </div>
