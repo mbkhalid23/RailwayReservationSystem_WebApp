@@ -29,9 +29,5 @@ namespace RailwayReservationSystem.Models
         public DateTime? DOB { get; set; }
 
         public int? Age { get; set; }
-
-        //Navigation Entries
-        [ValidateNever]
-        public ICollection<Reservation> Reservations { get; set; }
     }
 }

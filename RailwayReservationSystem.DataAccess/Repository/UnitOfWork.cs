@@ -14,12 +14,10 @@ namespace RailwayReservationSystem.DataAccess.Repository
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
-            Passenger = new PassengerRepository(_db);
             Train = new TrainRepository(_db);
             Station = new StationRepository(_db);
             Schedule = new ScheduleRepository(_db);
         }
-        public IPassengerRepository Passenger { get; private set; }
         public ITrainRepository Train { get; private set; }
         public IStationRepository Station { get; private set; }
         public IScheduleRepository Schedule { get; set; }

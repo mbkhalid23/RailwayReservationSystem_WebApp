@@ -8,7 +8,6 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
-        IPassengerRepository Passenger { get; }
         ITrainRepository Train { get; }
         IStationRepository Station { get; }
         IScheduleRepository Schedule { get; }
