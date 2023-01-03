@@ -17,5 +17,17 @@ namespace RailwayReservationSystem.DataAccess.Repository
         {
             _db = db;
         }
+
+        public int DecrementSeats(BookingCart bookingCart, int seats)
+        {
+            bookingCart.Seats -= seats;
+            return bookingCart.Seats;
+        }
+
+        public int IncrementSeats(BookingCart bookingCart, int seats)
+        {
+            bookingCart.Seats += seats;
+            return bookingCart.Seats;
+        }
     }
 }

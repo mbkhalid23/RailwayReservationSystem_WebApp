@@ -104,11 +104,29 @@ namespace RailwayReservationSystem.Areas.User.Controllers
         [Authorize]
         public IActionResult Details(BookingCart bookingCart)
         {
+            //Get the application user's identity
+            //Extract the Name identifier since it is the id parameter for any user
+            //Store the name identifier value as the application user identity
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             bookingCart.ApplicationUserId = claim.Value;
 
-            _unitOfWork.BookingCart.Add(bookingCart);
+            //Get the existing cart from database in case user is adding the same element again
+            //In this this case we would only need to update the count in the existing database entry
+            BookingCart existingCart = _unitOfWork.BookingCart.GetFirstOrDefault(
+                x => x.ApplicationUserId == claim.Value && x.ScheduleId == bookingCart.ScheduleId);
+
+            //If the cart is empty, simply add the booking to the cart
+            //else, increment the number of seats for the exisiting booking entry
+            if (existingCart == null)
+            {
+                _unitOfWork.BookingCart.Add(bookingCart);
+            }
+            else
+            {
+                _unitOfWork.BookingCart.IncrementSeats(existingCart, bookingCart.Seats);
+            }
+            
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
