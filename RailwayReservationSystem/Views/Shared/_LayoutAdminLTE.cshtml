@@ -212,12 +212,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             &nbsp; Trains
                                         </p>
                                     </a>
+                                </li>
+                                <li class="nav-item">
                                     <a asp-area="Admin" asp-controller="Station" asp-action="Index" class="nav-link">
                                         <i class="fas fa-building"></i>
                                         <p>
                                             &nbsp; Stations
                                         </p>
                                     </a>
+                                </li>
+                                <li class="nav-item">
                                     <a asp-area="Admin" asp-controller="Schedule" asp-action="Index" class="nav-link">
                                         <i class="fas fa-calendar-alt"></i>
                                         <p>
@@ -246,12 +250,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
-                        @*<li class="nav-item">
-                            <a asp-area="User" asp-controller="Home" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>Passenger</p>
+                        <li class="nav-item">
+                            <a asp-area="User" asp-controller="Cart" asp-action="Index" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p>
+                                    &nbsp;Cart
+                                </p>
                             </a>
-                        </li>*@
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

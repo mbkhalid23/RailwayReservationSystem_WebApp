@@ -129,6 +129,8 @@ namespace RailwayReservationSystem.Areas.User.Controllers
             
             _unitOfWork.Save();
 
+            TempData["Success"] = "Booking added to cart!";
+
             return RedirectToAction(nameof(Index));
         }
 
