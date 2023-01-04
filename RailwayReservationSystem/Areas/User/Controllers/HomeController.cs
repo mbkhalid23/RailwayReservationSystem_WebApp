@@ -62,7 +62,7 @@ namespace RailwayReservationSystem.Areas.User.Controllers
             }
             else
             {
-                ScheduleView.ScheduleList = _unitOfWork.Schedule.GetAll("Source,Destination,Train").Where(s =>
+                ScheduleView.ScheduleList = _unitOfWork.Schedule.GetAll(IncludeProperties: "Source,Destination,Train").Where(s =>
                     s.SourceStationId == ScheduleView.Schedule.SourceStationId &&
                     s.DestinationStationId == ScheduleView.Schedule.DestinationStationId &&
                     s.Departure.Date == ScheduleView.Schedule.Departure.Date).OrderBy(s => s.Departure);
