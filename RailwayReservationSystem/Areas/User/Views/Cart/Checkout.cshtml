@@ -18,70 +18,42 @@
 				<div class="row">
 					<div class="col-12 col-lg-6 pb-4">
 						<div class="row">
-							<h4 class="d-flex justify-content-between align-items-center mb-0">
+							<h4 class="d-flex justify-content-between align-items-center mb-3">
 								<span class="text-info">USER DETAILS</span>
 							</h4>
 						</div>
-						<div class="row mt-4 mb-1">
+						<div class="row mb-2">
 							<div class="col-3">
-								<h5>NAME:</h5>
+								<label>NAME:</label>
 							</div>
 							<div class="col-9">
-								<h5 class ="text-muted">@Model.OrderHeader.Name.ToUpper()</h5>
+								<input readonly asp-for="OrderHeader.Name" class="form-control" />
 							</div>
 						</div>
-						<div class="row my-1">
+						<div class="row mb-2">
 							<div class="col-3">
-								<h5>AGE:</h5>
+								<label>AGE:</label>
 							</div>
 							<div class="col-9">
-								<h5 class ="text-muted">@Model.OrderHeader.Age</h5>
+								<input readonly asp-for="OrderHeader.Age" class="form-control" />
 							</div>
 						</div>
-						<div class="row my-1">
+						<div class="row mb-2">
 							<div class="col-3">
-								<h5>GENDER:</h5>
+								<label>GENDER:</label>
 							</div>
 							<div class="col-9">
-								<h5 class="text-muted">@Model.OrderHeader.Gender.ToUpper()</h5>
+								<input readonly asp-for="OrderHeader.Gender" class="form-control" />
 							</div>
 						</div>
-						<div class="row my-1">
+						<div class="row mb-2">
 							<div class="col-3">
-								<h5>CONTACT:</h5>
+								<label>CONTACT:</label>
 							</div>
 							<div class="col-9">
-								<h5 class="text-muted">@Model.OrderHeader.PhoneNumber.ToUpper()</h5>
+								<input readonly asp-for="OrderHeader.PhoneNumber" class="form-control" />
 							</div>
 						</div>
-
-						@*@foreach (var item in Model.CartList)
-						{
-							<hr />
-							<div class="row mb-3">
-								<h5>
-									<strong>
-										@(item.Schedule.Source.City + " To " + item.Schedule.Destination.City)
-									</strong>
-								</h5>
-							</div>
-							<div class="row my-1">
-								<div class="col-2">
-									<h6>FROM:</h6>
-								</div>
-								<div class="col-10">
-									<h6>@item.Schedule.Source.Name.ToUpper(), @item.Schedule.Source.City.ToUpper()</h6>
-								</div>
-							</div>
-							<div class="row my-1">
-								<div class="col-2">
-									<h6>TO:</h6>
-								</div>
-								<div class="col-10">
-									<h6>@item.Schedule.Destination.Name.ToUpper(), @item.Schedule.Destination.City.ToUpper()</h6>
-								</div>
-							</div>
-						}*@
 					</div>
 					<div class="col-12 col-lg-5 offset-lg-1">
 						<h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -111,7 +83,7 @@
 		<div class="card-footer">
 			<div class="row">
 				<div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6">
-					<button type="submit" value="Place Order" class="w-100 btn btn-lg btn-info">CONFIRM BOOKING</button>
+					<button type="submit" value="Confirm Booking" class="w-100 btn btn-lg btn-info">CONFIRM BOOKING</button>
 				</div>
 			</div>
 		</div>
