@@ -9,7 +9,7 @@ namespace RailwayReservationSystem.Models.ViewModels
     public class BookingCartVM
     {
         public IEnumerable<BookingCart> CartList { get; set; }
-        public int CartTotal { get; set; }
+        public OrderHeader OrderHeader { get; set; }
 
     }
 }

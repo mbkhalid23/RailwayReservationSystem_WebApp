@@ -1,4 +1,7 @@
-﻿<form method="post" class="py-5">
+﻿@using System.Globalization;
+@model RailwayReservationSystem.Models.ViewModels.BookingCartVM
+
+<form method="post" class="py-5">
 	<div class="card container">
 		<div class="card-header bg-info py-4 row align-items-center">
 			<div class="col-12 col-md-6">
@@ -15,76 +18,90 @@
 				<div class="row">
 					<div class="col-12 col-lg-6 pb-4">
 						<div class="row">
-							<h4 class="d-flex justify-content-between align-items-center mb-3">
-								<span class="text-info">ORDER DETAILS</span>
+							<h4 class="d-flex justify-content-between align-items-center mb-0">
+								<span class="text-info">USER DETAILS</span>
 							</h4>
 						</div>
-						<div class="row my-1">
+						<div class="row mt-4 mb-1">
 							<div class="col-3">
-								<label>Name</label>
+								<h5>NAME:</h5>
 							</div>
 							<div class="col-9">
-								<input class="form-control" />
+								<h5 class ="text-muted">@Model.OrderHeader.Name.ToUpper()</h5>
 							</div>
 						</div>
 						<div class="row my-1">
 							<div class="col-3">
-								<label>Phone</label>
+								<h5>AGE:</h5>
 							</div>
 							<div class="col-9">
-								<input class="form-control" />
+								<h5 class ="text-muted">@Model.OrderHeader.Age</h5>
 							</div>
 						</div>
 						<div class="row my-1">
 							<div class="col-3">
-								<label>Street Address</label>
+								<h5>GENDER:</h5>
 							</div>
 							<div class="col-9">
-								<input class="form-control" />
+								<h5 class="text-muted">@Model.OrderHeader.Gender.ToUpper()</h5>
 							</div>
 						</div>
 						<div class="row my-1">
 							<div class="col-3">
-								<label>City</label>
+								<h5>CONTACT:</h5>
 							</div>
 							<div class="col-9">
-								<input class="form-control" />
+								<h5 class="text-muted">@Model.OrderHeader.PhoneNumber.ToUpper()</h5>
 							</div>
 						</div>
-						<div class="row my-1">
-							<div class="col-3">
-								<label>State</label>
+
+						@*@foreach (var item in Model.CartList)
+						{
+							<hr />
+							<div class="row mb-3">
+								<h5>
+									<strong>
+										@(item.Schedule.Source.City + " To " + item.Schedule.Destination.City)
+									</strong>
+								</h5>
 							</div>
-							<div class="col-9">
-								<input class="form-control" />
+							<div class="row my-1">
+								<div class="col-2">
+									<h6>FROM:</h6>
+								</div>
+								<div class="col-10">
+									<h6>@item.Schedule.Source.Name.ToUpper(), @item.Schedule.Source.City.ToUpper()</h6>
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">
-								<label>Postal Code</label>
+							<div class="row my-1">
+								<div class="col-2">
+									<h6>TO:</h6>
+								</div>
+								<div class="col-10">
+									<h6>@item.Schedule.Destination.Name.ToUpper(), @item.Schedule.Destination.City.ToUpper()</h6>
+								</div>
 							</div>
-							<div class="col-9">
-								<input class="form-control" />
-							</div>
-						</div>
+						}*@
 					</div>
 					<div class="col-12 col-lg-5 offset-lg-1">
 						<h4 class="d-flex justify-content-between align-items-center mb-3">
 							<span class="text-info">ORDER SUMMARY</span>
 						</h4>
 						<ul class="list-group mb-3">
-
+							@foreach (var item in Model.CartList)
+							{
 							<li class="list-group-item d-flex justify-content-between">
 								<div>
-									<h6 class="my-0">TITLE</h6>
-									<p class="text-muted mb-0">SEATS: Count</p>
+									<h6 class="my-0">@(item.Schedule.Source.City + " To " + item.Schedule.Destination.City)</h6>
+									<p class="text-muted mb-0">SEATS: @item.Seats</p>
 								</div>
-								<span class="text-muted">RS </span>
+									<span class="text-muted">@((item.Schedule.Fare * item.Seats).ToString("C", CultureInfo.CreateSpecificCulture("ur-PK")))</span>
 							</li>
+							}
 
 							<li class="py-3 list-group-item d-flex justify-content-between bg-light">
 								<p class="text-info mb-0">TOTAL (PKR)</p>
-								<strong class="text-info">RS</strong>
+								<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("C", CultureInfo.CreateSpecificCulture("ur-PK"))</strong>
 							</li>
 						</ul>
 					</div>

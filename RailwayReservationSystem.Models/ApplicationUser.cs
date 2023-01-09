@@ -23,11 +23,11 @@ namespace RailwayReservationSystem.Models
         public string CNIC { get; set; }
 
         [MaxLength(6)]
-        public string? Gender { get; set; }
+        public string Gender { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime? DOB { get; set; }
+        public DateTime DOB { get; set; }
 
-        public int? Age { get; set; }
+        public int Age { get; set; }
     }
 }

@@ -170,7 +170,7 @@ namespace RailwayReservationSystem.Areas.Identity.Pages.Account
                 user.Name = Input.Name;
                 user.CNIC = Input.CNIC;
                 user.Gender = Input.Gender;
-                user.DOB = Input.DOB;
+                user.DOB = (DateTime)Input.DOB;
                 user.Age = (DateTime.Now - Input.DOB).Value.Days / 365;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
