@@ -13,6 +13,8 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
         IScheduleRepository Schedule { get; }
         IBookingCartRepository BookingCart { get; }
         IApplicationUserRepository ApplicationUser { get; }
-        void Save();
+		IOrderHeaderRepository OrderHeader { get; }
+		IOrderDetailRepository OrderDetail { get; }
+		void Save();
     }
 }

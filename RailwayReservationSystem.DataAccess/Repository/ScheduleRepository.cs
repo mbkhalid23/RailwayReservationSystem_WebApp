@@ -20,7 +20,7 @@ namespace RailwayReservationSystem.DataAccess.Repository
 
         public void Update(Schedule obj)
         {
-            _db.Update(obj);
+            _db.Schedule.Update(obj);
         }
     }
 }

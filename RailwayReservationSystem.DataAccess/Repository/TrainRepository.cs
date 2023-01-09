@@ -19,7 +19,7 @@ namespace RailwayReservationSystem.DataAccess.Repository
 
         public void Update(Train obj)
         {
-            _db.Update(obj);
+            _db.Trains.Update(obj);
         }
     }
 }
