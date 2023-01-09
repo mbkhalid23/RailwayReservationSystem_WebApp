@@ -1,5 +1,7 @@
 ﻿@using System.Globalization;
 @model RailwayReservationSystem.Models.ViewModels.BookingCartVM
+@using Microsoft.Extensions.Options
+@inject IOptions<RailwayReservationSystem.Utility.StripeSettings> Stripe
 
 <form method="post" class="py-5">
 	<div class="card container">
