@@ -71,7 +71,18 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 
 		}
 
-        //Remove a cart item
+		public IActionResult Checkout(int cartId)
+		{
+			//var cart = _unitOfWork.BookingCart.GetFirstOrDefault(x => x.Id == cartId);
+
+			//_unitOfWork.BookingCart.Remove(cart);
+			//_unitOfWork.Save();
+
+			return View();
+
+		}
+
+		//Remove a cart item
 		public IActionResult Delete(int cartId)
 		{
 			var cart = _unitOfWork.BookingCart.GetFirstOrDefault(x => x.Id == cartId);
