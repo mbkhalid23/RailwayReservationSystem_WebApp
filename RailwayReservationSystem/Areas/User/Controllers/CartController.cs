@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.ViewModels;
 using RailwayReservationSystem.Utility;
+using Stripe.Checkout;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 
@@ -101,7 +103,7 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 			//Also, calculate order total
 			foreach (var item in BookingCartVM.CartList)
 			{
-				item.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(x => x.ScheduleId == item.ScheduleId);
+				item.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(x => x.ScheduleId == item.ScheduleId, IncludeProperties:"Source,Destination");
 
 				//Check if there are any seats available
 				if (item.Schedule.SeatsAvailable <= 0)
@@ -140,13 +142,74 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 				_unitOfWork.Save();
 			}
 
-			//Now that the order is cretaed, we will clear the booking cart
-			_unitOfWork.BookingCart.RemoveRange(BookingCartVM.CartList);
+			//Stripe Settings
+			var domain = "https://localhost:44345/";
+
+			var options = new SessionCreateOptions
+			{
+				PaymentMethodTypes = new List<string>
+				{
+					"card",
+				},
+				LineItems = new List<SessionLineItemOptions>(),
+				Mode = "payment",
+				SuccessUrl = domain + $"user/cart/OrderConfirmation?id={BookingCartVM.OrderHeader.Id}",
+				CancelUrl = domain + $"user/cart/index",
+			};
+
+			foreach (var item in BookingCartVM.CartList)
+			{
+				var sessionLineItem = new SessionLineItemOptions
+				{
+					PriceData = new SessionLineItemPriceDataOptions
+					{
+						UnitAmount = (long)(item.Schedule.Fare * 100),
+						Currency = "pkr",
+						ProductData = new SessionLineItemPriceDataProductDataOptions
+						{
+							Name = item.Schedule.Source.City + " to " + item.Schedule.Destination.City,
+						},
+					},
+					Quantity = item.Seats,
+				};
+				options.LineItems.Add(sessionLineItem);
+			}
+
+			var service = new SessionService();
+			Session session = service.Create(options);
+
+			//Save sessionId and paymentIntentId so we can retrive it in order confirmation method
+			_unitOfWork.OrderHeader.UpdateStripePaymentId(BookingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
 			_unitOfWork.Save();
 
-			TempData["success"] = "Congratulations! Your booking order is placed";
+			Response.Headers.Add("Location", session.Url);
+			return new StatusCodeResult(303);
+		}
 
-			return RedirectToAction("Index", "Home");
+		//GET the order confirmation page
+		public IActionResult OrderConfirmation(int id)
+		{
+			OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id);
+
+			var service = new SessionService();
+			Session session = service.Get(orderHeader.SessionId);
+
+			//check the stripe status
+			if (session.PaymentStatus.ToLower() == "paid")
+			{
+				_unitOfWork.OrderHeader.UpdateStatus(id, SD.OrderStatusApproved, SD.PaymentStatusApproved);
+				_unitOfWork.Save();
+			}
+
+			//Now that the order is creatad, we will clear the booking cart
+			//But first, we need to retrive the cart list
+
+			List<BookingCart> bookingCarts = _unitOfWork.BookingCart.GetAll(x => x.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
+
+			_unitOfWork.BookingCart.RemoveRange(bookingCarts);
+			_unitOfWork.Save();
+
+			return View(id);
 
 		}
 
