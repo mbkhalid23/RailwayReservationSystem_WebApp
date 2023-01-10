@@ -60,5 +60,26 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 
             return View(OrderVM);
         }
+
+		//POST method to update order details
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+        public IActionResult UpdateOrderDetails()
+        {
+			//Retrive order header from db based on the order header id recieved
+			var OrderHeaderFromDb = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == OrderVM.OrderHeader.Id, tracked: false);
+
+			//update order header details
+			OrderHeaderFromDb.Name = OrderVM.OrderHeader.Name;
+			OrderHeaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
+
+			//update the changes and save to database
+			_unitOfWork.OrderHeader.Update(OrderHeaderFromDb);
+			_unitOfWork.Save();
+
+			TempData["success"] = "Order Details Updated Successfully";
+
+            return RedirectToAction("Details", "Order", new { orderId = OrderHeaderFromDb.Id});
+        }
     }
 }
