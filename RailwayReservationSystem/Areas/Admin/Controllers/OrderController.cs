@@ -4,6 +4,7 @@ using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.ViewModels;
 using RailwayReservationSystem.Utility;
+using Stripe;
 using System.Security.Claims;
 
 namespace RailwayReservationSystem.Areas.Admin.Controllers
@@ -80,6 +81,50 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 			TempData["success"] = "Order Details Updated Successfully";
 
             return RedirectToAction("Details", "Order", new { orderId = OrderHeaderFromDb.Id});
+        }
+
+        //POST method to cancel an order 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		[Authorize(Roles = SD.Role_Admin)]
+        public IActionResult CancelOrder()
+        {
+            //Retrive order header from db based on the order header id recieved
+            var orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == OrderVM.OrderHeader.Id, tracked: false);
+
+			//If payment is already made, we must refund it
+			if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
+			{
+				var options = new RefundCreateOptions
+				{
+					Reason = RefundReasons.RequestedByCustomer,
+					PaymentIntent = orderHeader.PaymentIntentId,
+					//here you can also mention specific amount to refund
+					//however, if left blank, it will refund the original order total
+				};
+
+				//Now we need to create a refund service
+				//We then create a refund object and call the service create function and pass options to it
+				//refund process will start
+				var service = new RefundService();
+				Refund refund = service.Create(options);
+
+				//Now we need to update order status
+				_unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.OrderStatusCancelled, SD.PaymentStatusRefunded);
+
+			}
+
+			//if payment is not made, we just update the order statuselse{
+			else
+			{
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.OrderStatusCancelled, SD.OrderStatusCancelled);
+            }
+
+            _unitOfWork.Save();
+
+            TempData["success"] = "Order Canceller Successfully";
+
+            return RedirectToAction("Details", "Order", new { orderId = orderHeader.Id });
         }
     }
 }
