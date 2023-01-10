@@ -60,7 +60,5 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 
             return View(OrderVM);
         }
-
-
     }
 }

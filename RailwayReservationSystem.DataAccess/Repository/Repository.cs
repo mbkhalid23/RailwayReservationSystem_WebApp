@@ -46,9 +46,18 @@ namespace RailwayReservationSystem.DataAccess.Repository
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? IncludeProperties = null)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? IncludeProperties = null, bool tracked = true)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query;
+
+            if (tracked)
+            {
+                query = dbSet;
+            }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
 
             query = query.Where(filter);
 
