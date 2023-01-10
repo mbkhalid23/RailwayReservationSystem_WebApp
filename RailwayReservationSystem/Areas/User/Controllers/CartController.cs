@@ -197,7 +197,9 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 			//check the stripe status
 			if (session.PaymentStatus.ToLower() == "paid")
 			{
-				_unitOfWork.OrderHeader.UpdateStatus(id, SD.OrderStatusApproved, SD.PaymentStatusApproved);
+				//After new update stripe generates payment intent id after payment is processed, so we need to update it here
+                _unitOfWork.OrderHeader.UpdateStripePaymentId(id, orderHeader.SessionId, session.PaymentIntentId);
+                _unitOfWork.OrderHeader.UpdateStatus(id, SD.OrderStatusApproved, SD.PaymentStatusApproved);
 				_unitOfWork.Save();
 			}
 
