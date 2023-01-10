@@ -5,6 +5,7 @@ using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.ViewModels;
 using RailwayReservationSystem.Utility;
 using Stripe;
+using Stripe.Checkout;
 using System.Security.Claims;
 
 namespace RailwayReservationSystem.Areas.Admin.Controllers
@@ -62,8 +63,89 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
             return View(OrderVM);
         }
 
-		//POST method to update order details
+		//POST method to allow admin to Pay for the Order
+		[ActionName("Details")]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
+        public IActionResult Details_PAY_NOW()
+        {
+			OrderVM.OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == OrderVM.OrderHeader.Id, IncludeProperties: "ApplicationUser");
+			OrderVM.OrderDetail = _unitOfWork.OrderDetail.GetAll(x => x.OrderId == OrderVM.OrderHeader.Id, IncludeProperties: "Schedule");
+
+            foreach (var item in OrderVM.OrderDetail)
+            {
+                item.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(x => x.ScheduleId == item.ScheduleId, IncludeProperties: "Source,Destination");
+            }
+
+
+            //Stripe Settings
+            var domain = "https://localhost:44345/";
+
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string>
+                {
+                    "card",
+                },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderid={OrderVM.OrderHeader.Id}",
+                CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
+            };
+
+            foreach (var item in OrderVM.OrderDetail)
+            {
+                var sessionLineItem = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)(item.Schedule.Fare * 100),
+                        Currency = "pkr",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = item.Schedule.Source.City + " to " + item.Schedule.Destination.City,
+                        },
+                    },
+                    Quantity = item.Seats,
+                };
+                options.LineItems.Add(sessionLineItem);
+            }
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+
+            //Save sessionId and paymentIntentId so we can retrive it in order confirmation method
+            _unitOfWork.OrderHeader.UpdateStripePaymentId(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+            _unitOfWork.Save();
+
+            Response.Headers.Add("Location", session.Url);
+            return new StatusCodeResult(303);
+        }
+
+
+        //GET the payment confirmation page
+        public IActionResult PaymentConfirmation(int orderHeaderid)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == orderHeaderid);
+
+            var service = new SessionService();
+            Session session = service.Get(orderHeader.SessionId);
+
+            //check the stripe status
+            if (session.PaymentStatus.ToLower() == "paid")
+            {
+                //After new update stripe generates payment intent id after payment is processed, so we need to update it here
+                _unitOfWork.OrderHeader.UpdateStripePaymentId(orderHeaderid, orderHeader.SessionId, session.PaymentIntentId);
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeaderid, SD.OrderStatusApproved, SD.PaymentStatusApproved);
+                _unitOfWork.Save();
+            }
+
+            return View(orderHeaderid);
+
+        }
+
+        //POST method to update order details
+        [HttpPost]
 		[ValidateAntiForgeryToken]
         public IActionResult UpdateOrderDetails()
         {
