@@ -229,6 +229,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <p>
+                                            &nbsp; Reservations
+                                        </p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item menu-open">
@@ -248,15 +256,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <p>
+                                            &nbsp; My Reservations
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="User" asp-controller="Cart" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <p>
+                                            &nbsp;Cart
+                                        </p>
+                                    </a>
+                                </li>
                             </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="User" asp-controller="Cart" asp-action="Index" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>
-                                    &nbsp;Cart
-                                </p>
-                            </a>
                         </li>
                     </ul>
                 </nav>
