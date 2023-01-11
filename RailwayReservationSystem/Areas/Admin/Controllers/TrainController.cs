@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.FileProviders;
 using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.ViewModels;
+using RailwayReservationSystem.Utility;
 using System.Linq;
 
 namespace RailwayReservationSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
+    [Authorize(Roles = SD.Role_Admin)]
     public class TrainController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

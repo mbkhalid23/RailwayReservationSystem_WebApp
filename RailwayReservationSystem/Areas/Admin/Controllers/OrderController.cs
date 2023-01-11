@@ -147,6 +147,7 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         //POST method to update order details
         [HttpPost]
 		[ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Role_Admin)]
         public IActionResult UpdateOrderDetails()
         {
 			//Retrive order header from db based on the order header id recieved

@@ -99,10 +99,11 @@ namespace RailwayReservationSystem.Areas.User.Controllers
         }
 
         //POST
+        [ActionName("Details")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public IActionResult Details(BookingCart bookingCart)
+        public IActionResult AddToCart(BookingCart bookingCart)
         {
             //Get the application user's identity
             //Extract the Name identifier since it is the id parameter for any user
