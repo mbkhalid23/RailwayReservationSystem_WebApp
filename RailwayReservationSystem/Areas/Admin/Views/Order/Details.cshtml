@@ -149,16 +149,17 @@
                             </li>
                         </ul>
 
+                        @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusPending)
+                        {
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <button type="submit" value="Pay Now" class="w-100 btn btn-lg btn-success">Pay Now</button>
+                            </div>
+                        </div>
+                        }
+
                         @if (User.IsInRole(SD.Role_Admin))
                         {
-                            if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusPending)
-                            {
-                                <div class="row mb-2">
-                                    <div class="col-12">
-                                        <button type="submit" value="Pay Now" class="w-100 btn btn-lg btn-success">Pay Now</button>
-                                    </div>
-                                </div>
-                            }
                             if (Model.OrderHeader.OrderStatus != SD.OrderStatusCancelled && Model.OrderHeader.OrderStatus != SD.PaymentStatusRefunded)
                             {
                                 <div class="row mb-2">
