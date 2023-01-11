@@ -67,7 +67,7 @@
                     </td>
                     <td>
                         <div class="w-100 btn-group" role="group">
-                            <a asp-controller="Schedule" asp-action="Details" asp-route-id="@schedule.ScheduleId" class="btn btn-success"><i class="fas fa-eye"></i></a>
+                            <a asp-area="User" asp-controller="Home" asp-action="Details" asp-route-scheduleId="@schedule.ScheduleId" class="btn btn-success"><i class="fas fa-eye"></i></a>
                             <a asp-controller="Schedule" asp-action="Upsert" asp-route-id="@schedule.ScheduleId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                             <a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.ScheduleId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                         </div>

@@ -31,18 +31,6 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
         }
 
         //GET
-        public IActionResult Details(int? id)
-        {
-            ScheduleViewModel ScheduleView = new();
-            {
-                ScheduleView.Schedule = _unitOfWork.Schedule.GetFirstOrDefault(s => s.ScheduleId == id, IncludeProperties: "Source,Destination,Train");
-                ScheduleView.Seats = 1;
-            }
-
-            return View(ScheduleView);
-        }
-
-        //GET
         public IActionResult Upsert(int? id)
         {
             ScheduleViewModel ScheduleView = new();

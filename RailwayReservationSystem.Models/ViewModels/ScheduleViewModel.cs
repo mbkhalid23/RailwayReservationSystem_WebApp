@@ -13,7 +13,6 @@ namespace RailwayReservationSystem.Models.ViewModels
         public IEnumerable<Schedule>? ScheduleList { get; set; }
         public IEnumerable<SelectListItem>? TrainsList { get; set; }
         public IEnumerable<SelectListItem>? StationsList { get; set; }
-        public int Seats { get; set; }
 
     }
 }
