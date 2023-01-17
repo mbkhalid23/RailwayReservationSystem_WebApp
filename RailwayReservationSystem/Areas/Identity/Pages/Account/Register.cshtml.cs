@@ -172,6 +172,7 @@ namespace RailwayReservationSystem.Areas.Identity.Pages.Account
                 user.Gender = Input.Gender;
                 user.DOB = (DateTime)Input.DOB;
                 user.Age = (DateTime.Now - Input.DOB).Value.Days / 365;
+                user.PhoneNumber = Input.PhoneNumber;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
