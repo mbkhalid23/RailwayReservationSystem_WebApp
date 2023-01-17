@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
@@ -16,12 +17,14 @@ namespace RailwayReservationSystem.Areas.User.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+		private readonly IEmailSender _emailSender;
 
 		[BindProperty] //Bind this property so we don't have to pass it as a parameter in each POST method
         public BookingCartVM BookingCartVM { get; set; }
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
+			_emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -189,7 +192,7 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 		//GET the order confirmation page
 		public IActionResult OrderConfirmation(int id)
 		{
-			OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id);
+			OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id, IncludeProperties:"ApplicationUser");
 
 			var service = new SessionService();
 			Session session = service.Get(orderHeader.SessionId);
@@ -202,6 +205,9 @@ namespace RailwayReservationSystem.Areas.User.Controllers
                 _unitOfWork.OrderHeader.UpdateStatus(id, SD.OrderStatusApproved, SD.PaymentStatusApproved);
 				_unitOfWork.Save();
 			}
+
+			//Send confirmation Email
+			_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Booking - Confirmed", "<p>Your Booking is confirmed</p>");
 
 			//Now that the order is creatad, we will clear the booking cart
 			//But first, we need to retrive the cart list
