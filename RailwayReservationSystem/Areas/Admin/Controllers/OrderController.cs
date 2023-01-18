@@ -197,12 +197,23 @@ namespace RailwayReservationSystem.Areas.Admin.Controllers
 
 			}
 
-			//if payment is not made, we just update the order statuselse{
+			//if payment is not made, we just update the order status
 			else
 			{
                 _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.OrderStatusCancelled, SD.OrderStatusCancelled);
             }
 
+            //Now we need to update available seats in schedule
+            //To do that we will first get Order details from db and include Schedule
+            var orderDetails = _unitOfWork.OrderDetail.GetAll(x => x.OrderId == orderHeader.Id, IncludeProperties: "Schedule");
+            //Next we will update the available seats and seats booked in the schedule entries retrived
+            foreach (var item in orderDetails)
+            {
+                item.Schedule.SeatsAvailable += item.Seats;
+                item.Schedule.SeatsBooked -= item.Seats;
+            }
+
+            //Now save changes to database
             _unitOfWork.Save();
 
             TempData["success"] = "Order Canceller Successfully";
