@@ -5,6 +5,7 @@ using RailwayReservationSystem.DataAccess.Repository;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.ViewModels;
+using RailwayReservationSystem.Utility;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -122,14 +123,15 @@ namespace RailwayReservationSystem.Areas.User.Controllers
             if (existingCart == null)
             {
                 _unitOfWork.BookingCart.Add(bookingCart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.BookingCart.GetAll(x => x.ApplicationUserId == claim.Value).ToList().Count());
             }
             else
             {
                 _unitOfWork.BookingCart.IncrementSeats(existingCart, bookingCart.Seats);
+                _unitOfWork.Save();
             }
             
-            _unitOfWork.Save();
-
             TempData["Success"] = "Booking added to cart!";
 
             return RedirectToAction(nameof(Index));

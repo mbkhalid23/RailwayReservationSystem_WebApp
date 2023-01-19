@@ -23,5 +23,8 @@ namespace RailwayReservationSystem.Utility
 		public const string PaymentStatusApproved = "Approved";
 		public const string PaymentStatusRejected = "Rejected";
 		public const string PaymentStatusRefunded = "Refunded";
-	}
+
+        //SessionVariables
+        public const string SessionCart = "BookingCartSession";
+    }
 }

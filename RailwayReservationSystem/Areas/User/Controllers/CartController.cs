@@ -241,7 +241,10 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 			if (cart.Seats <= 1)
 			{
 				_unitOfWork.BookingCart.Remove(cart);
-			}
+                //Decrement session cart value by 1
+                var count = _unitOfWork.BookingCart.GetAll(x => x.ApplicationUserId == cart.ApplicationUserId).ToList().Count - 1; //subtracting -1 because we haven't saved the changes yet
+                HttpContext.Session.SetInt32(SD.SessionCart, count); //Update session
+            }
 			else
 			{
 				_unitOfWork.BookingCart.DecrementSeats(cart, 1);
@@ -259,7 +262,11 @@ namespace RailwayReservationSystem.Areas.User.Controllers
             _unitOfWork.BookingCart.Remove(cart);
 			_unitOfWork.Save();
 
-			return RedirectToAction(nameof(Index));
+            //Decrement session cart value by 1
+            var count = _unitOfWork.BookingCart.GetAll(x => x.ApplicationUserId == cart.ApplicationUserId).ToList().Count;
+            HttpContext.Session.SetInt32(SD.SessionCart, count); //Update session
+
+            return RedirectToAction(nameof(Index));
 
 		}
 	}

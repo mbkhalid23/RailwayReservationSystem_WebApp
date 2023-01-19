@@ -1,4 +1,7 @@
-﻿@using RailwayReservationSystem.Utility
+﻿@using Microsoft.AspNetCore.Http
+@using RailwayReservationSystem.Utility
+@inject IHttpContextAccessor HttpContextAccessor
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -296,7 +299,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <a asp-area="User" asp-controller="Cart" asp-action="Index" class="nav-link">
                                             <i class="fas fa-shopping-cart"></i>
                                             <p>
-                                                &nbsp;Cart
+                                                @await Component.InvokeAsync("BookingCart")
                                             </p>
                                         </a>
                                     </li>
