@@ -30,6 +30,7 @@ namespace RailwayReservationSystem.Areas.User.Controllers
             ScheduleViewModel ScheduleView = new();
             {
                 ScheduleView.Schedule = new();
+                ScheduleView.ScheduleList = _unitOfWork.Schedule.GetAll(x => x.Departure > DateTime.Now);
 
                 ScheduleView.StationsList = _unitOfWork.Station.GetAll().Select(
                     s => new SelectListItem
