@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RailwayReservationSystem.Models\RailwayReservationSystem.Models.csproj" />
+    <ProjectReference Include="..\RailwayReservationSystem.Utility\RailwayReservationSystem.Utility.csproj" />
   </ItemGroup>
 
 </Project>
