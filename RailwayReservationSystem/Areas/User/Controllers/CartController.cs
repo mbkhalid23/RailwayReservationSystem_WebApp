@@ -146,7 +146,7 @@ namespace RailwayReservationSystem.Areas.User.Controllers
 			}
 
 			//Stripe Settings
-			var domain = "https://localhost:44345/";
+			var domain = "https://localhost:7139/";
 
 			var options = new SessionCreateOptions
 			{
