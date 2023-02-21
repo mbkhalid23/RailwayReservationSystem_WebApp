@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RailwayReservationSystem.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RailwayReservationSystem.Utility", "RailwayReservationSystem.Utility\RailwayReservationSystem.Utility.csproj", "{D8C9145E-7B2B-4C43-B41B-648A9693542A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailwayReservationSystem.API", "RailwayReservationSystem.API\RailwayReservationSystem.API.csproj", "{93DC1271-B304-4A38-A989-0C05E23CD0AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8C9145E-7B2B-4C43-B41B-648A9693542A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93DC1271-B304-4A38-A989-0C05E23CD0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93DC1271-B304-4A38-A989-0C05E23CD0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93DC1271-B304-4A38-A989-0C05E23CD0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93DC1271-B304-4A38-A989-0C05E23CD0AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
