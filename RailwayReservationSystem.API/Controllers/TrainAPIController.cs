@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
@@ -13,10 +14,12 @@ namespace RailwayReservationSystem.API.Controllers
     public class TrainAPIController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TrainAPIController(IUnitOfWork unitOfWork) 
+        public TrainAPIController(IUnitOfWork unitOfWork, IMapper mapper) 
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,25 +27,11 @@ namespace RailwayReservationSystem.API.Controllers
         public ActionResult<IEnumerable<TrainDTO>> GetAll()
         {
             IEnumerable<Train> trains = _unitOfWork.Train.GetAll().ToList();
-            List<TrainDTO> trainDTOs = new();
 
-            foreach (var train in trains)
-            {
-                //Copy Train model to TrainDTO 
-                TrainDTO trainDTO = new()
-                {
-                    TrainNo = train.TrainNo,
-                    Name = train.Name,
-                    Capacity = train.Capacity,
-                    Status = train.Status,
-                    StationId = train.StationId
-                };
-
-                trainDTOs.Add(trainDTO);
-            }
+            //Copy trains list to TrainDTOs list
+            List<TrainDTO> trainDTOs = _mapper.Map<List<TrainDTO>>(trains);
 
             return Ok(trainDTOs);
-
         }
 
         [HttpGet("{id:int}", Name = "GetById")]
@@ -62,14 +51,7 @@ namespace RailwayReservationSystem.API.Controllers
             }
 
             //Copy Train model to TrainDTO 
-            TrainDTO trainDTO = new()
-            {
-                TrainNo = train.TrainNo,
-                Name = train.Name,
-                Capacity = train.Capacity,
-                Status = train.Status,
-                StationId = train.StationId
-            };
+            TrainDTO trainDTO = _mapper.Map<TrainDTO>(train);
 
             return Ok(trainDTO);
         }
@@ -79,42 +61,36 @@ namespace RailwayReservationSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<TrainCreateDTO> AddNewTrain([FromBody] TrainCreateDTO trainDTO)
+        public ActionResult<TrainCreateDTO> AddNewTrain([FromBody] TrainCreateDTO trainCreateDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            if (trainDTO.Capacity < 50)
+            if (trainCreateDTO.Capacity < 50)
             {
-                ModelState.AddModelError("", "train cannot have less than 50 seats");
+                ModelState.AddModelError("CustomError", "train cannot have less than 50 seats");
 
                 return BadRequest(ModelState);
             }
 
             //Copy TrainDTO to Train model
-            Train train = new()
-            {
-                Name = trainDTO.Name,
-                Capacity = trainDTO.Capacity,
-                Status = trainDTO.Status,
-                StationId = trainDTO.StationId
-            };
+            Train train = _mapper.Map<Train>(trainCreateDTO);
 
             //Get station
             train.Station = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == train.StationId);
 
             if (train.Station == null)
             {
-                ModelState.AddModelError("", "No Station found with the given id");
+                ModelState.AddModelError("CustomError", "No Station found with the given id");
                 return NotFound(ModelState);
             }
 
             //Check if the station has space available  for the train
             if (train.Station.AvailableSlots <= 0)
             {
-                ModelState.AddModelError("", "Station already at Max capacity. Can't Add a new Train");
+                ModelState.AddModelError("CustomError", "Station already at Max capacity. Can't Add a new Train");
                 return BadRequest(ModelState);
             }
 
@@ -127,12 +103,9 @@ namespace RailwayReservationSystem.API.Controllers
             _unitOfWork.Save();
 
             //Copy train to trainDTO
-            trainDTO.Name = train.Name;
-            trainDTO.Capacity = train.Capacity;
-            trainDTO.Status = train.Status;
-            trainDTO.StationId = train.StationId;
+            trainCreateDTO = _mapper.Map<TrainCreateDTO>(train);
 
-            return CreatedAtRoute("GetById",new { id = train.TrainNo}, trainDTO);
+            return CreatedAtRoute("GetById",new { id = train.TrainNo}, trainCreateDTO);
         }
     }
 }
