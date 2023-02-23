@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.DataAccess.Repository;
+using RailwayReservationSystem.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("TeoConnection")
     ));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 var app = builder.Build();
 
