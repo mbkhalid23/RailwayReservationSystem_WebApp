@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
+using RailwayReservationSystem.Models.Dto;
+using System.Diagnostics;
 
 namespace RailwayReservationSystem.API.Controllers
 {
@@ -18,10 +20,29 @@ namespace RailwayReservationSystem.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<Train>> GetAll()
+        public ActionResult<IEnumerable<TrainDTO>> GetAll()
         {
-            IEnumerable<Train> trains = _unitOfWork.Train.GetAll().ToList();
-            return Ok(trains);
+            return Ok(_unitOfWork.Train.GetAll().ToList());
+
+        }
+
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<TrainDTO> GetById(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+            var train = _unitOfWork.Train.GetFirstOrDefault(t=>t.TrainNo== id);
+            if (train == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(train);
         }
     }
 }
