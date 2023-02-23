@@ -4,6 +4,7 @@ using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.Dto;
 using System.Diagnostics;
+using static RailwayReservationSystem.Models.Train;
 
 namespace RailwayReservationSystem.API.Controllers
 {
@@ -22,7 +23,25 @@ namespace RailwayReservationSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<TrainDTO>> GetAll()
         {
-            return Ok(_unitOfWork.Train.GetAll().ToList());
+            IEnumerable<Train> trains = _unitOfWork.Train.GetAll().ToList();
+            List<TrainDTO> trainDTOs = new();
+
+            foreach (var train in trains)
+            {
+                //Copy Train model to TrainDTO 
+                TrainDTO trainDTO = new()
+                {
+                    TrainNo = train.TrainNo,
+                    Name = train.Name,
+                    Capacity = train.Capacity,
+                    Status = train.Status,
+                    StationId = train.StationId
+                };
+
+                trainDTOs.Add(trainDTO);
+            }
+
+            return Ok(trainDTOs);
 
         }
 
@@ -42,7 +61,17 @@ namespace RailwayReservationSystem.API.Controllers
                 return NotFound();
             }
 
-            return Ok(train);
+            //Copy Train model to TrainDTO 
+            TrainDTO trainDTO = new()
+            {
+                TrainNo = train.TrainNo,
+                Name = train.Name,
+                Capacity = train.Capacity,
+                Status = train.Status,
+                StationId = train.StationId
+            };
+
+            return Ok(trainDTO);
         }
 
         [HttpPost]
@@ -50,16 +79,11 @@ namespace RailwayReservationSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<TrainDTO> AddNewTrain([FromBody]TrainDTO trainDTO)
+        public ActionResult<TrainCreateDTO> AddNewTrain([FromBody] TrainCreateDTO trainDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
-            }
-
-            if (trainDTO.TrainNo > 0)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             if (trainDTO.Capacity < 50)
@@ -75,7 +99,7 @@ namespace RailwayReservationSystem.API.Controllers
                 Name = trainDTO.Name,
                 Capacity = trainDTO.Capacity,
                 Status = trainDTO.Status,
-                StationId = trainDTO.StationId,
+                StationId = trainDTO.StationId
             };
 
             //Get station
@@ -102,16 +126,13 @@ namespace RailwayReservationSystem.API.Controllers
             _unitOfWork.Train.Add(train);
             _unitOfWork.Save();
 
-            train = _unitOfWork.Train.GetLast();
-
             //Copy train to trainDTO
-            trainDTO.TrainNo= train.TrainNo;
             trainDTO.Name = train.Name;
             trainDTO.Capacity = train.Capacity;
             trainDTO.Status = train.Status;
             trainDTO.StationId = train.StationId;
 
-            return CreatedAtRoute("GetById",new { id = trainDTO.TrainNo}, trainDTO);
+            return CreatedAtRoute("GetById",new { id = train.TrainNo}, trainDTO);
         }
     }
 }
