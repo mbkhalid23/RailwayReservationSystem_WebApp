@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,6 +41,7 @@ namespace RailwayReservationSystem.Models
         [DisplayName("Stationed At")]
         public int StationId { get; set; }
         [ValidateNever]
+        [JsonIgnore]
         public Station Station { get; set; }
     }
 }

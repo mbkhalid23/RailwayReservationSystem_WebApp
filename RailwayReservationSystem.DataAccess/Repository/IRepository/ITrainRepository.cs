@@ -10,5 +10,6 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
     public interface ITrainRepository : IRepository<Train>
     {
         void Update(Train obj);
+        Train GetLast(string? IncludeProperties = null, bool tracked = true);
     }
 }
