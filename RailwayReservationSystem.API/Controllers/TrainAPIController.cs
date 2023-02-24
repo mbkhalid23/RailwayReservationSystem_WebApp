@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.Dto;
@@ -135,6 +136,69 @@ namespace RailwayReservationSystem.API.Controllers
 
             //Remove the train from database
             _unitOfWork.Train.Remove(train);
+            _unitOfWork.Save();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:int}", Name = "UpdateTrain")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult UpdateTrain(int id, [FromBody] TrainUpdateDTO trainUpdateDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (trainUpdateDTO == null || id != trainUpdateDTO.TrainNo)
+            {
+                return BadRequest();
+            }
+
+            if (trainUpdateDTO.Capacity < 50)
+            {
+                ModelState.AddModelError("CustomError", "train cannot have less than 50 seats");
+
+                return BadRequest(ModelState);
+            }
+
+            Train train = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == id);
+            //store current station id
+            trainUpdateDTO.PrevStation = train.StationId;
+
+            _mapper.Map(trainUpdateDTO,train);
+
+            if (train.StationId != trainUpdateDTO.PrevStation)
+            {
+                
+
+                //Get the new station of Train
+                train.Station = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == train.StationId);
+
+                if (train.Station.AvailableSlots <= 0)
+                {
+                    ModelState.AddModelError("constraint", "No space available on the new station");
+                    return BadRequest();
+                }
+
+                //Train arrives at the new station
+                train.Station.TrainsStationed++;
+                train.Station.AvailableSlots--;
+
+                //Get the previous station of Train
+                Station oldStation = _unitOfWork.Station.GetFirstOrDefault(s=>s.StationId== trainUpdateDTO.PrevStation);
+
+                //Train leave the previous station
+                oldStation.TrainsStationed--;
+                oldStation.AvailableSlots++;
+
+                _unitOfWork.Station.Update(oldStation);
+            }
+
+            _unitOfWork.Train.Update(train);
             _unitOfWork.Save();
 
             return NoContent();

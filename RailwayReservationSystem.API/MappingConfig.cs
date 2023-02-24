@@ -10,6 +10,7 @@ namespace RailwayReservationSystem.API
         {
             CreateMap<Train,TrainDTO>().ReverseMap();
             CreateMap<Train, TrainCreateDTO>().ReverseMap();
+            CreateMap<Train, TrainUpdateDTO>().ReverseMap();
             CreateMap<List<TrainDTO>,IEnumerable<Train>>();
 
 
