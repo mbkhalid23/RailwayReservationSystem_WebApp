@@ -107,5 +107,37 @@ namespace RailwayReservationSystem.API.Controllers
 
             return CreatedAtRoute("GetById",new { id = train.TrainNo}, trainCreateDTO);
         }
+
+        [HttpDelete("{id:int}", Name = "DeleteTrain")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteTrain(int id)
+        {
+            //Check if the id is null or 0
+            if (id == null || id == 0)
+            {
+                return BadRequest();
+            }
+
+            //Get train along with its station
+            Train train = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == id, IncludeProperties: "Station");
+
+            //Check if the train object is null
+            if (train == null)
+            {
+                return NotFound();
+            }
+
+            //Train leaves the station
+            train.Station.TrainsStationed--;
+            train.Station.AvailableSlots++;
+
+            //Remove the train from database
+            _unitOfWork.Train.Remove(train);
+            _unitOfWork.Save();
+
+            return NoContent();
+        }
     }
 }
