@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
@@ -202,6 +203,64 @@ namespace RailwayReservationSystem.API.Controllers
             _unitOfWork.Save();
 
             return NoContent();
+        }
+
+        [HttpPatch("{id:int}", Name = "UpdatePartialTrain")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult UpdatePartialTrain(int id, JsonPatchDocument<TrainUpdateDTO> patchDTO)
+        {
+            if (patchDTO == null || id == 0)
+            {
+                return BadRequest();
+            }
+            
+            var train = _unitOfWork.Train.GetFirstOrDefault(t => t.TrainNo == id);
+           
+            if (train == null)
+            {
+                return NotFound();
+            }
+
+            var updateDTO = _mapper.Map<TrainUpdateDTO>(train);
+
+            //store current station id
+            updateDTO.PrevStation = train.StationId;
+
+            patchDTO.ApplyTo(updateDTO);
+
+            _mapper.Map(updateDTO, train);
+
+            if (train.StationId != updateDTO.PrevStation)
+            {
+                //Get the new station of Train
+                train.Station = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == train.StationId);
+
+                if (train.Station.AvailableSlots <= 0)
+                {
+                    ModelState.AddModelError("constraint", "No space available on the new station");
+                    return BadRequest();
+                }
+
+                //Train arrives at the new station
+                train.Station.TrainsStationed++;
+                train.Station.AvailableSlots--;
+
+                //Get the previous station of Train
+                Station oldStation = _unitOfWork.Station.GetFirstOrDefault(s => s.StationId == updateDTO.PrevStation);
+
+                //Train leave the previous station
+                oldStation.TrainsStationed--;
+                oldStation.AvailableSlots++;
+
+                _unitOfWork.Station.Update(oldStation);
+            }
+
+            _unitOfWork.Train.Update(train);
+            _unitOfWork.Save();
+
+            return Ok(updateDTO);
         }
     }
 }
