@@ -10,7 +10,7 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
     public interface IRepository<T> where T : class
     {
         T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? IncludeProperties = null, bool tracked = true);
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null, int pageSize = 3, int pageNumber = 1);
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);

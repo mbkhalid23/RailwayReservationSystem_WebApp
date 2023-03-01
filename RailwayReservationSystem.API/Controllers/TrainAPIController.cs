@@ -28,16 +28,16 @@ namespace RailwayReservationSystem.API.Controllers
         [HttpGet]
         [ResponseCache(CacheProfileName = "Default")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<TrainDTO>> GetAll([FromQuery] int? capacity, [FromQuery] int? station)
+        public ActionResult<IEnumerable<TrainDTO>> GetAll([FromQuery] int? capacity, [FromQuery] int? station, int pageSize = 3, int pageNumber = 1)
         {
             IEnumerable<Train> trains;
             if (capacity > 0)
             {
-                trains = _unitOfWork.Train.GetAll(t => t.Capacity >= capacity);
+                trains = _unitOfWork.Train.GetAll(t => t.Capacity >= capacity, pageSize:pageSize, pageNumber:pageNumber);
             }
             else
             {
-                trains = _unitOfWork.Train.GetAll().ToList();
+                trains = _unitOfWork.Train.GetAll(pageSize: pageSize, pageNumber: pageNumber).ToList();
 
             }
 
