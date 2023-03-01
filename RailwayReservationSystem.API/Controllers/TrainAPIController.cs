@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using RailwayReservationSystem.Models.Dto;
+using System.Collections.Generic;
 using System.Diagnostics;
 using static RailwayReservationSystem.Models.Train;
 
@@ -25,10 +26,25 @@ namespace RailwayReservationSystem.API.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "Default")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<TrainDTO>> GetAll()
+        public ActionResult<IEnumerable<TrainDTO>> GetAll([FromQuery] int? capacity, [FromQuery] int? station)
         {
-            IEnumerable<Train> trains = _unitOfWork.Train.GetAll().ToList();
+            IEnumerable<Train> trains;
+            if (capacity > 0)
+            {
+                trains = _unitOfWork.Train.GetAll(t => t.Capacity >= capacity);
+            }
+            else
+            {
+                trains = _unitOfWork.Train.GetAll().ToList();
+
+            }
+
+            if (station > 0)
+            {
+                trains = trains.Where(t => t.StationId ==  station);
+            }
 
             //Copy trains list to TrainDTOs list
             List<TrainDTO> trainDTOs = _mapper.Map<List<TrainDTO>>(trains);
@@ -37,6 +53,7 @@ namespace RailwayReservationSystem.API.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetById")]
+        [ResponseCache(CacheProfileName = "Default")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
