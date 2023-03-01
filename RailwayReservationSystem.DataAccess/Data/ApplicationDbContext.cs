@@ -23,6 +23,7 @@ namespace RailwayReservationSystem.DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<BookingCart> BookingCarts { get; set; }
 		public DbSet<OrderHeader> OrderHeaders { get; set; }
-		public DbSet<OrderDetail> OrderDetails { get; set; }    
-	}
+		public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<LocalUser> LocalUsers { get; set; }
+    }
 }
