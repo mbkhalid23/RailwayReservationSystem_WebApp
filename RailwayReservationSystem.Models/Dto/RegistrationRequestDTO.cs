@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RailwayReservationSystem.Models.Dto
 {
-    internal class RegistrationRequestDTO
+    public class RegistrationRequestDTO
     {
         public string UserName { get; set; }
         public string Name { get; set; }

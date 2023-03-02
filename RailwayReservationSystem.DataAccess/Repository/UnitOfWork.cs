@@ -22,6 +22,7 @@ namespace RailwayReservationSystem.DataAccess.Repository
             ApplicationUser = new ApplicationUserRepository(_db);
 			OrderHeader = new OrderHeaderRepository(_db);
 			OrderDetail = new OrderDetailRepository(_db);
+            LocalUser = new UserRepository(_db);
 		}
         public ITrainRepository Train { get; private set; }
         public IStationRepository Station { get; private set; }
@@ -30,8 +31,9 @@ namespace RailwayReservationSystem.DataAccess.Repository
         public IApplicationUserRepository ApplicationUser { get; set; }
 		public IOrderHeaderRepository OrderHeader { get; set; }
 		public IOrderDetailRepository OrderDetail { get; set; }
+        public IUserRepository LocalUser { get; set; }
 
-		public void Save()
+        public void Save()
         {
             _db.SaveChanges();
         }

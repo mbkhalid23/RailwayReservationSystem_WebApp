@@ -15,6 +15,7 @@ namespace RailwayReservationSystem.DataAccess.Repository.IRepository
         IApplicationUserRepository ApplicationUser { get; }
 		IOrderHeaderRepository OrderHeader { get; }
 		IOrderDetailRepository OrderDetail { get; }
-		void Save();
+        IUserRepository LocalUser { get; }
+        void Save();
     }
 }
