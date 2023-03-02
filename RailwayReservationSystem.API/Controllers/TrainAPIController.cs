@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,12 @@ namespace RailwayReservationSystem.API.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet]
         [ResponseCache(CacheProfileName = "Default")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public ActionResult<IEnumerable<TrainDTO>> GetAll([FromQuery] int? capacity, [FromQuery] int? station, int pageSize = 3, int pageNumber = 1)
         {
             IEnumerable<Train> trains;
@@ -52,11 +56,14 @@ namespace RailwayReservationSystem.API.Controllers
             return Ok(trainDTOs);
         }
 
+        [Authorize]
         [HttpGet("{id:int}", Name = "GetById")]
         [ResponseCache(CacheProfileName = "Default")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public ActionResult<TrainDTO> GetById(int id)
         {
             if (id == 0)
@@ -75,10 +82,13 @@ namespace RailwayReservationSystem.API.Controllers
             return Ok(trainDTO);
         }
 
+        [Authorize(Roles ="admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<TrainCreateDTO> AddNewTrain([FromBody] TrainCreateDTO trainCreateDTO)
         {
@@ -127,10 +137,13 @@ namespace RailwayReservationSystem.API.Controllers
             return CreatedAtRoute("GetById",new { id = train.TrainNo}, trainCreateDTO);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id:int}", Name = "DeleteTrain")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult DeleteTrain(int id)
         {
             //Check if the id is null or 0
@@ -159,10 +172,13 @@ namespace RailwayReservationSystem.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id:int}", Name = "UpdateTrain")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult UpdateTrain(int id, [FromBody] TrainUpdateDTO trainUpdateDTO)
         {
@@ -222,10 +238,13 @@ namespace RailwayReservationSystem.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("{id:int}", Name = "UpdatePartialTrain")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult UpdatePartialTrain(int id, JsonPatchDocument<TrainUpdateDTO> patchDTO)
         {
             if (patchDTO == null || id == 0)
