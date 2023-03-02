@@ -1,4 +1,5 @@
-﻿using RailwayReservationSystem.DataAccess.Data;
+﻿using Microsoft.Extensions.Configuration;
+using RailwayReservationSystem.DataAccess.Data;
 using RailwayReservationSystem.DataAccess.Repository.IRepository;
 using RailwayReservationSystem.Models;
 using System;
@@ -12,9 +13,11 @@ namespace RailwayReservationSystem.DataAccess.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _db;
-        public UnitOfWork(ApplicationDbContext db)
+        private readonly IConfiguration _configuration;
+        public UnitOfWork(ApplicationDbContext db, IConfiguration configuration)
         {
             _db = db;
+            _configuration = configuration;
             Train = new TrainRepository(_db);
             Station = new StationRepository(_db);
             Schedule = new ScheduleRepository(_db);
@@ -22,7 +25,7 @@ namespace RailwayReservationSystem.DataAccess.Repository
             ApplicationUser = new ApplicationUserRepository(_db);
 			OrderHeader = new OrderHeaderRepository(_db);
 			OrderDetail = new OrderDetailRepository(_db);
-            LocalUser = new UserRepository(_db);
+            LocalUser = new UserRepository(_db, _configuration);
 		}
         public ITrainRepository Train { get; private set; }
         public IStationRepository Station { get; private set; }

@@ -17,7 +17,7 @@ namespace RailwayReservationSystem.DataAccess.Repository
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _db;
-        private string secretKey;
+        private readonly string secretKey;
 
         public UserRepository(ApplicationDbContext db, IConfiguration configuration)
         {
@@ -43,7 +43,11 @@ namespace RailwayReservationSystem.DataAccess.Repository
 
             if (user == null)
             {
-                return null;
+                return new LoginResponseDTO()
+                {
+                    Token = "",
+                    User = null
+                };
             }
 
             //If user was found generate JWT Token
